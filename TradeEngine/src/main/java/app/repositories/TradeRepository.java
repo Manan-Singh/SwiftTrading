@@ -12,6 +12,6 @@ public interface TradeRepository extends JpaRepository<Trade, Integer> {
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO Trades (Buy, StrategyId, Price, TradeSize, Stock, TimeTransacted, TransactionState) " +
-            "VALUES (?1, ?2, ?3, ?3, ?4, ?5, ?6, ?7)", nativeQuery = true)
+            "VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)", nativeQuery = true)
     public void saveNewTrade(boolean buy, int strategyId, double price, int tradeSize, String ticker, String time, String state);
 }
