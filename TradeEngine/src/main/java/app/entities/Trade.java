@@ -125,6 +125,8 @@ public class Trade {
     // Used to easily receive JMS messages
     public class TradeDTO extends Order {
 
+        public TradeDTO() {}
+
         @XmlElement(name = "result")
         private String state;
 
