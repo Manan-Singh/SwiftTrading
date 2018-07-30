@@ -27,17 +27,22 @@ export class StrategyFormComponent implements OnInit {
       this.twoMovingAverages.exit_position = this.strategy.exit_position;
       this.twoMovingAverages.ticker = this.strategy.ticker;
       console.log(this.twoMovingAverages);
+      this.strategyService.createTwoMovingAverageStrategy(this.twoMovingAverages).subscribe(
+        data => { console.log('Done!'); },
+        error => {
+          console.log('Error creating new strategy'); });
     }
     else{
       this.bollingerBands.strategy_name = this.strategy.strategy_name;
       this.bollingerBands.exit_position = this.strategy.exit_position;
       this.bollingerBands.ticker = this.strategy.ticker;
       console.log(this.bollingerBands);
-    }
-    console.log('done');
-    this.strategyService.createStrategy().subscribe(
+      this.strategyService.createBollingerBandsStrategy(this.bollingerBands).subscribe(
         data => { console.log('Done!'); },
         error => {
           console.log('Error creating new strategy'); });
+    }
+    console.log('done');
+
   }
 }

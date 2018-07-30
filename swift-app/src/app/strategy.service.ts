@@ -1,16 +1,27 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {TwoMovingAverages} from './models/TwoMovingAverages';
+import {BollingerBands} from './models/BollingerBands';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StrategyService {
-  private userUrl = '/api';
+  private baseURL = 'http://localhost:8081/api';
   constructor(private http: HttpClient) { }
 
-  createStrategy() {
+  createTwoMovingAverageStrategy(twoMovingAverages: TwoMovingAverages ) {
     console.log('Service creating strategy');
-    return this.http.get('http://localhost:8081/api/api');
-    //return 'Service Created';
+    return this.http.post(this.baseURL + '/strategies',twoMovingAverages);
+  }
+
+  createBollingerBandsStrategy(bollingerBands: BollingerBands ) {
+    console.log('Service creating strategy');
+    return this.http.post(this.baseURL + '/strategies',bollingerBands);
+  }
+
+  getAllStrategies(){
+    console.log('Retrieving all strategies');
+    return this.http.get(this.baseURL + '/strategies');
   }
 }

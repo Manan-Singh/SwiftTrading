@@ -7,12 +7,14 @@ import { AppRoutingModule } from './/app-routing.module';
 import {UserServiceService} from './/user-service.service';
 import {HttpClientModule} from '@angular/common/http';
 import { StrategyFormComponent } from './strategy-form/strategy-form.component';
+import { ViewStrategiesComponent } from './view-strategies/view-strategies.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloWorldComponent,
     StrategyFormComponent,
+    ViewStrategiesComponent,
 
   ],
   imports: [
