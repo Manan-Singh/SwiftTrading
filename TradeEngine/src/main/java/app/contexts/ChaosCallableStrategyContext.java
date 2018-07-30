@@ -8,12 +8,18 @@ import app.services.StockService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
 import javax.jms.Queue;
+import javax.jms.Session;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Component
-public class ChaosCallableStrategyContext extends CallableStrategyContext {
+public class ChaosCallableStrategyContext extends CallableStrategyContext implements Serializable  {
 
     @Autowired
     private StockService stockService;
@@ -41,10 +47,11 @@ public class ChaosCallableStrategyContext extends CallableStrategyContext {
         return callableStrategy;
     }
 
-    public class ChaosCallableStrategy extends CallableStrategy {
+    public class ChaosCallableStrategy extends CallableStrategy implements Serializable {
 
         private ChaosStrategy strategy;
         private XmlMapper xmlMapper = new XmlMapper();
+        private String responseUuid = UUID.randomUUID().toString();
 
         private ChaosCallableStrategy() {}
 
@@ -65,11 +72,16 @@ public class ChaosCallableStrategyContext extends CallableStrategyContext {
 
                 String xml = xmlMapper.writeValueAsString(order);
                 System.out.println("\n" + xml + "\n");
-//                try {
-//                    template.convertAndSend(queue, testJMSMessage);
-//                }
-//                catch(Exception e) {e.printStackTrace();}
-                Thread.sleep(5000);
+                try {
+                    //sendMessage(xml);
+                    template.send(queue, (Session session) -> {
+                        Message msg = session.createTextMessage(xml);
+                        msg.setJMSCorrelationID(responseUuid);
+                        return msg;
+                    });
+                }
+                catch(Exception e) {e.printStackTrace();}
+                Thread.sleep(10000);
             }
             return null;
         }

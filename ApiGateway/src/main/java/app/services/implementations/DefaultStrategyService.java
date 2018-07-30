@@ -1,7 +1,9 @@
 package app.services.implementations;
 
 import app.entities.Trade;
+import app.entities.strategies.BollingerBandsStrategy;
 import app.entities.strategies.Strategy;
+import app.repositories.BollingerBandsStrategyRepository;
 import app.repositories.StrategyRepository;
 import app.services.StrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,16 @@ public class DefaultStrategyService implements StrategyService {
     @Autowired
     private StrategyRepository strategyRepository;
 
+    @Autowired
+    private BollingerBandsStrategyRepository bollingerBandsStrategyRepository;
+
     @Override
     public List<Strategy> getAllStrategies() {
         return strategyRepository.findAll();
     }
+
+    @Override
+    public List<BollingerBandsStrategy> getAllBollingerStrategies() { return bollingerBandsStrategyRepository.findAll(); }
 
     @Override
     public List<Strategy> getActiveStrategies() {
@@ -33,6 +41,11 @@ public class DefaultStrategyService implements StrategyService {
     @Override
     public Strategy createStrategy(Strategy strategy) {
         return strategyRepository.save(strategy);
+    }
+
+    @Override
+    public BollingerBandsStrategy createBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy){
+        return bollingerBandsStrategyRepository.save(bollingerBandsStrategy);
     }
 
     @Override
