@@ -21,7 +21,7 @@ public class Strategy implements Serializable {
 
     @Column(name = "IsActive")
     @JsonProperty("isActive")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Column(name = "Name")
     @JsonProperty("name")
