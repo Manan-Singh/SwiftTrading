@@ -1,41 +1,46 @@
 package app.entities.strategies;
 
-import app.entities.Stock;
 import app.entities.Trade;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "Strategies")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Strategy {
+// the following annotation fixes /strategies/{id} path when trying to display json
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Strategy implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id", updatable = false, nullable = false)
     private Integer id;
 
     @Column(name = "IsActive")
+    @JsonProperty("isActive")
     private Boolean isActive;
 
-    @Column(name = "Entry")
-    private Integer entryPosition;
+    @Column(name = "Name")
+    @JsonProperty("name")
+    private String name;
 
     @Column(name = "Close")
-    private Integer closePosition;
+    @JsonProperty("close")
+    private Integer closePercentage;
+
+    @Column(name = "Ticker")
+    @JsonProperty("ticker")
+    private String ticker;
+
+    @Column(name = "ProfitValue")
+    private Integer profitValue;
 
     @OneToMany(mappedBy = "strategy", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Trade> trades;
-
-    @OneToOne
-    @JoinColumn(name = "Stock")
-    private Stock stock;
 
     @Override
     public boolean equals(Object o) {
@@ -56,34 +61,34 @@ public class Strategy {
         return id;
     }
 
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 
-    public Integer getEntryPosition() {
-        return entryPosition;
+    public Integer getClosePercentage() {
+        return closePercentage;
     }
 
-    public void setEntryPosition(Integer entryPosition) {
-        this.entryPosition = entryPosition;
+    public void setClosePercentage(Integer closePercentage) {
+        this.closePercentage = closePercentage;
     }
 
-    public Integer getClosePosition() {
-        return closePosition;
-    }
+    public String getName() { return name; }
 
-    public void setClosePosition(Integer closePosition) {
-        this.closePosition = closePosition;
-    }
+    public void setName(String name) { this.name = name; }
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "ticker")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Stock getStock() {
-        return stock;
+    public Integer getProfitValue() { return profitValue; }
+
+    public void setProfitValue(Integer profitValue) { this.profitValue = profitValue; }
+
+    public void setTrades(List<Trade> trades) { this.trades = trades; }
+
+    public void setTicker(String ticker) {
+        this.ticker = ticker;
     }
 
     public List<Trade> getTrades() {
