@@ -2,14 +2,17 @@ package app.entities;
 
 import app.entities.strategies.Strategy;
 import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Trades")
-public class Trade {
+public class Trade implements Serializable {
 
     public enum TransactionState { FILLED, PARTIALLY_FILLED, REJECTED };
 

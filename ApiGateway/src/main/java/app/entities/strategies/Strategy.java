@@ -8,12 +8,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "Strategies")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Strategy {
+public class Strategy implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +27,14 @@ public class Strategy {
     @Column(name = "Entry")
     private Integer entryPosition;
 
+    @Column(name = "StrategyType")
+    private String strategyType;
+
     @Column(name = "Close")
     private Integer closePosition;
+
+    @Column(name = "Name")
+    private String name;
 
     @OneToMany(mappedBy = "strategy", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -79,6 +86,14 @@ public class Strategy {
     public void setClosePosition(Integer closePosition) {
         this.closePosition = closePosition;
     }
+
+    public String getStrategyType() { return strategyType; }
+
+    public void setStrategyType(String strategyType) { this.strategyType = strategyType; }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "ticker")
     @JsonIdentityReference(alwaysAsId = true)
