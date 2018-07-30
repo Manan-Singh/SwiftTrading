@@ -51,11 +51,6 @@ public class DefaultStrategyService implements StrategyService {
     }
 
     @Override
-    public List<Strategy> getStrategiesByStrategyType(String strategyType) {
-        return strategyRepository.findAllByStrategyType(strategyType);
-    }
-
-    @Override
     public List<Trade> getTradesByStrategyId(Integer id) {
         Strategy strategy = strategyRepository.getOne(id);
         return strategy.getTrades();

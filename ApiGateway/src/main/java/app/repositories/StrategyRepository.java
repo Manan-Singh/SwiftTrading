@@ -10,6 +10,4 @@ import java.util.List;
 public interface StrategyRepository extends JpaRepository<Strategy, Integer> {
 
     List<Strategy> findByIsActive(boolean isActive);
-
-    List<Strategy> findAllByStrategyType(String strategyType);
 }

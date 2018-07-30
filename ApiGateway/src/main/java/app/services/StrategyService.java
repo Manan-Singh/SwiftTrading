@@ -17,8 +17,6 @@ public interface StrategyService {
 
     Strategy updateStrategy(Strategy strategy);
 
-    List<Strategy> getStrategiesByStrategyType(String strategyType);
-
     void deleteStrategyById(Integer id);
 
     void deleteStrategy(Strategy strategy);

@@ -35,7 +35,10 @@ public class StrategyController {
     public Strategy updateStrategy(@RequestBody Strategy strategy) {return strategyService.updateStrategy(strategy); }
 
     @DeleteMapping("/strategies/{id}")
-    public void deleteStrategy(@PathVariable("id") Integer id){ strategyService.deleteStrategyById(id);}
+    public void deleteStrategy(@PathVariable("id") Integer id){
+        // TODO: only delete inactive strategies
+        strategyService.deleteStrategyById(id);
+    }
 
     @GetMapping("/strategies/{id}/trades")
     public List<Trade> getTradesByStrategyId(@PathVariable("id") Integer id){
@@ -44,9 +47,4 @@ public class StrategyController {
 
     //@GetMapping("/trades")
     //public List<Trades> getAllTrades
-
-    @GetMapping("/strategy/{strategyType}")
-    public List<Strategy> getStrategiesByStrategyType(@PathVariable("stategyType") String strategyType){
-        return strategyService.getStrategiesByStrategyType(strategyType);
-    }
 }

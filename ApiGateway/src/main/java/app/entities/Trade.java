@@ -17,7 +17,7 @@ public class Trade implements Serializable {
     public enum TransactionState { FILLED, PARTIALLY_FILLED, REJECTED };
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "Buy")
@@ -39,10 +39,6 @@ public class Trade implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "StrategyId")
     private Strategy strategy;
-
-    @OneToOne
-    @JoinColumn(name = "Stock")
-    private Stock stock;
 
     @Override
     public boolean equals(Object o) {
@@ -111,11 +107,5 @@ public class Trade implements Serializable {
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
-    }
-
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "ticker")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Stock getStock() {
-        return stock;
     }
 }
