@@ -2,10 +2,7 @@ package app.entities.strategies;
 
 import app.entities.Stock;
 import app.entities.Trade;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "Strategies")
 @Inheritance(strategy = InheritanceType.JOINED)
+// the following annotation fixes /strategies/{id} path when trying to display json
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Strategy implements Serializable {
 
     @Id
