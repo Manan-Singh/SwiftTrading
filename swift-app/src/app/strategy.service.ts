@@ -12,16 +12,22 @@ export class StrategyService {
 
   createTwoMovingAverageStrategy(twoMovingAverages: TwoMovingAverages ) {
     console.log('Service creating strategy');
-    return this.http.post(this.baseURL + '/strategies',twoMovingAverages);
+    return this.http.post(this.baseURL + '/strategies/', twoMovingAverages);
   }
 
   createBollingerBandsStrategy(bollingerBands: BollingerBands ) {
     console.log('Service creating strategy');
-    return this.http.post(this.baseURL + '/strategies',bollingerBands);
+    return this.http.post(this.baseURL + '/strategies/bollinger', bollingerBands);
   }
 
   getAllStrategies(){
     console.log('Retrieving all strategies');
     return this.http.get(this.baseURL + '/strategies');
+  }
+
+  deleteStrategy(strategy:any){
+    console.log('Deleting Strategy');
+    console.log(this.baseURL + '/strategies/' + strategy.id);
+    return this.http.delete(this.baseURL + '/strategies/' + strategy.id);
   }
 }

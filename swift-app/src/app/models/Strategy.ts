@@ -1,6 +1,6 @@
 export class Strategy{
-  strategy_name: string;
-  exit_position: string;
+  name: string;
+  close: string;
   ticker: string;
   flag: string;
 }

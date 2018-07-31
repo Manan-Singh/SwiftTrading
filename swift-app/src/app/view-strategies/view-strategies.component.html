@@ -1,7 +1,25 @@
-<h2>All Strategies</h2>
-<table>
-
-  <tr>
-    <th></th>
+<div>
+  <select [(ngModel)]="temp" (ngModelChange)="filterStrategies(temp)">
+    <option *ngFor = "let filter of filterHeaders" [value]="filter">{{filter}}</option>
+  </select>
+<table id="keywords">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Ticker</th>
+      <th>Exit Position</th>
+      <th>Active</th>
+    </tr>
+  </thead>
+  <tr *ngFor="let strat of filteredStrategies;">
+    <td>{{strat.id}}</td>
+    <td>{{strat.name}}</td>
+    <td>{{strat.ticker}}</td>
+    <td>{{strat.close}}</td>
+    <td>{{strat.isActive}}</td>
+    <td><button (click)="deleteStrategy(strat)">Delete</button></td>
   </tr>
 </table>
+</div>
+

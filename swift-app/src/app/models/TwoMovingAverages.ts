@@ -1,6 +1,6 @@
 export class TwoMovingAverages{
-  strategy_name: string;
-  exit_position: string;
+  name: string;
+  close: string;
   ticker: string;
   longTime: string;
   shortTime: string;

@@ -1,7 +1,7 @@
 export class BollingerBands{
-  strategy_name: string;
-  exit_position: string;
+  name: string;
+  close: string;
   ticker: string;
   period: string;
-  stdev: string;
+  stdDev: string;
 }

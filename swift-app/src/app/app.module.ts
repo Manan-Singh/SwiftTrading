@@ -8,6 +8,8 @@ import {UserServiceService} from './/user-service.service';
 import {HttpClientModule} from '@angular/common/http';
 import { StrategyFormComponent } from './strategy-form/strategy-form.component';
 import { ViewStrategiesComponent } from './view-strategies/view-strategies.component';
+import { AlertComponent } from './alert/alert.component';
+import { AlertService} from './alert.service';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,7 @@ import { ViewStrategiesComponent } from './view-strategies/view-strategies.compo
     HelloWorldComponent,
     StrategyFormComponent,
     ViewStrategiesComponent,
+    AlertComponent,
 
   ],
   imports: [
@@ -23,7 +26,7 @@ import { ViewStrategiesComponent } from './view-strategies/view-strategies.compo
     HttpClientModule,
     FormsModule
   ],
-  providers: [UserServiceService],
+  providers: [UserServiceService, AlertService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
