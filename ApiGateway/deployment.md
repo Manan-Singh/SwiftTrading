@@ -7,7 +7,28 @@ mvn clean package
 java -jar -Dspring.profiles.active=dev ./target/ApiGateway-1.0-SNAPSHOT.jar
 ```
 
+### Build App
+
 ```
-docker build -t swift_trading_test
-// tagged as swift_trading_test
+docker build -t swift_test_app .
+// tagged as swift_test_app, build from current directory
+```
+
+### Push App to Registry
+
+```
+docker tag swift_test_app:latest docker.conygre.com:5000/centos/swift_test_app
+docker push docker.conygre.com:5000/centos/swift_test_app
+```
+
+### TODO
+
+Dockerfile
+```
+FROM docker.conygre.com:5000/centos
+```
+
+```
+docker tag swift_test_app:latest docker.conygre.com:5000/swift_test_app
+docker push docker.conygre.com:5000/swift_test_app
 ```
