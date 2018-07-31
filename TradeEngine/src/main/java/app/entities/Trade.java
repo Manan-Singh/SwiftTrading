@@ -4,23 +4,19 @@ import app.entities.strategies.Strategy;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Trades")
-@XmlRootElement(name = "trade")
-@JacksonXmlRootElement(localName = "trade")
-public class Trade {
+public class Trade implements Serializable {
 
     public enum TransactionState { FILLED, PARTIALLY_FILLED, REJECTED };
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "Buy")
@@ -42,10 +38,6 @@ public class Trade {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "StrategyId")
     private Strategy strategy;
-
-    @OneToOne
-    @JoinColumn(name = "Stock")
-    private Stock stock;
 
     @Override
     public boolean equals(Object o) {
@@ -114,29 +106,5 @@ public class Trade {
 
     public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
-    }
-
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "ticker")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Stock getStock() {
-        return stock;
-    }
-
-    // Used to easily receive JMS messages
-    public class TradeDTO extends Order {
-
-        public TradeDTO() {}
-
-        @XmlElement(name = "result")
-        private String state;
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
     }
 }

@@ -1,17 +1,14 @@
 package app.contexts;
 
 import app.entities.Order;
-import app.entities.Stock;
 import app.entities.strategies.ChaosStrategy;
 import app.entities.strategies.Strategy;
-import app.services.StockService;
+import app.services.StockPriceRecordService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
-import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Queue;
 import javax.jms.Session;
@@ -22,7 +19,7 @@ import java.util.UUID;
 public class ChaosCallableStrategyContext extends CallableStrategyContext implements Serializable  {
 
     @Autowired
-    private StockService stockService;
+    private StockPriceRecordService stockService;
 
     @Autowired
     private JmsTemplate template;
@@ -58,16 +55,15 @@ public class ChaosCallableStrategyContext extends CallableStrategyContext implem
         @Override
         public Void call() throws Exception {
             while (!Thread.currentThread().isInterrupted()) {
-                // have to get the stock from the db to get updated prices
-                Stock stock = stockService.getStock(strategy.getStock().getTicker());
-                double price = stock.getPrice();
+                // get the long and short moving averages
+                double price = stockService.getMostRecentStockPrice(strategy.getTicker());
                 boolean buyTrade = (Math.random() >= .5 ? true : false);
 
                 Order order = null;
                 if (buyTrade) {
-                    order = getOrder(true, price, strategy);
+                    order = getOrder(true, price, DEFAULT_ENTRY, strategy);
                 } else {
-                    order = getOrder(false, price, strategy);
+                    order = getOrder(false, price, DEFAULT_ENTRY, strategy);
                 }
 
                 String xml = xmlMapper.writeValueAsString(order);

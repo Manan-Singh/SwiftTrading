@@ -1,7 +1,7 @@
 package app.tasks;
 
-import app.entities.Stock;
-import app.services.StockService;
+import app.entities.StockPriceRecord;
+import app.services.StockPriceRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,28 +30,33 @@ public class UpdateStockPriceTask {
     private String marketFeedUrl;
 
     @Autowired
-    private StockService stockService;
+    private StockPriceRecordService stockService;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 500)
     private void updateStockPrices() {
-        List<Stock> active = stockService.getAllActiveStocks();
+        List<String> active = stockService.getAllActiveStocks();
         if (!active.isEmpty()) {
             String restQuery = getMarketQuery(active);
             String priceString = restTemplate.getForObject(restQuery, String.class);
             String[] prices = priceString.split("\n");
             // the string array and the stock list are guaranteed to be the same size and order
             for (int i = 0; i < prices.length; i++) {
+                String ticker = (prices[i].split(",")[0]).toUpperCase();
+                ticker = ticker.substring(1, ticker.length()-1);
                 Double price = Double.parseDouble(prices[i].split(",")[1]);
-                active.get(i).setPrice(price);
-                stockService.save(active.get(i));
+                StockPriceRecord spr = new StockPriceRecord();
+                spr.setPrice(price);
+                spr.setTicker(ticker);
+                spr.setTimeInspected(Timestamp.from(Instant.now()));
+                stockService.save(spr);
             }
         }
         logger.info("Updated active stock prices");
     }
 
     // this gives a complete url query that will return the bid and ask prices for each active stock
-    private String getMarketQuery(List<Stock> stocks) {
-        String stockString = stocks.stream().map(Stock::getTicker).collect(Collectors.joining(",")).toLowerCase();
+    private String getMarketQuery(List<String> stocks) {
+        String stockString = stocks.stream().collect(Collectors.joining(",")).toLowerCase();
         return marketFeedUrl + stockString + FIELDS;
     }
 }
