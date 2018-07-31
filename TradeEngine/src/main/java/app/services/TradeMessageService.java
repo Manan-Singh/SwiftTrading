@@ -27,7 +27,7 @@ public class TradeMessageService {
             }
             tradeDTO.setTimeTransacted(tradeDTO.getTimeTransacted().substring(0, tradeDTO.getTimeTransacted().lastIndexOf('-')));
             tradeService.saveTrade(tradeDTO.isBuyTrade(), tradeDTO.getId(), tradeDTO.getPrice(),
-                    tradeDTO.getTradeSize(), tradeDTO.getStock(), tradeDTO.getTimeTransacted(), tradeDTO.getState());
+                    tradeDTO.getTradeSize(), tradeDTO.getTimeTransacted(), tradeDTO.getState());
         } catch (Exception e) {
             logger.warn("JMS Message could not be read");
             e.printStackTrace();

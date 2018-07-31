@@ -12,7 +12,7 @@ public class DefaultTradeService implements TradeService  {
     private TradeRepository repo;
 
     @Override
-    public void saveTrade(boolean buy, int strategyId, double price, int tradeSize, String ticker, String time, String state) {
-        repo.saveNewTrade(buy, strategyId, price, tradeSize, ticker, time, state);
+    public void saveTrade(boolean buy, int strategyId, double price, int tradeSize, String time, String state) {
+        repo.saveNewTrade(buy, strategyId, price, tradeSize, time, state);
     }
 }
