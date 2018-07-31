@@ -7,6 +7,14 @@ mvn clean package
 java -jar -Dspring.profiles.active=dev ./target/ApiGateway-1.0-SNAPSHOT.jar
 ```
 
+### Run MySQL
+
+Run a mysql server instance. 
+
+```
+docker run --name swift -e MYSQL_ROOT_PASSWORD={PASSWORD} -d mysql:5.7
+```
+
 ### Build App
 
 ```

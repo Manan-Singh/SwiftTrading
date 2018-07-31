@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: root
   swift_test_app:
     image: swift_test_app
-    depends-on:
+    depends_on:
       - docker_mysql
     ports:
       - 8081:8081
