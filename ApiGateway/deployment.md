@@ -1,6 +1,8 @@
 
 
-## DEPLOYMENT INFO
+# DEPLOYMENT INFO
+
+## Test Deployment Documentation
 
 ### Test Deployment with Docker
 
@@ -48,57 +50,45 @@ mysql -u $USERNAME -p $PASSWORD -h 127.0.0.1 -P 3306 < ../SQL/init.sql
 mysql -u $USERNAME -p $PASSWORD -h 127.0.0.1 -P 3306 < ../SQL/dummy-data.sql
 ```
 
-TODO: 
-- update profiles to be more robust (include more properties)
-- provide deployment instructions for use without docker-compose.yml
 
+## Reference Information
 
+### Run with dev properties
 
-## OTHER
-
-### Run with dev properties (application-dev.properties)
+Use Maven to clean and package then run application with application-dev.properties file
 
 ```
 mvn clean package
 java -jar -Dspring.profiles.active=dev ./target/ApiGateway-1.0-SNAPSHOT.jar
 ```
 
-### Run MySQL
+### Build App
 
-Run a mysql server instance. 
+Build app from current directory and tag as swift_test_app
 
 ```
-docker run -p 3306:3306 --name swift -e MYSQL_ROOT_PASSWORD=$PASSWORD -d mysql:5.7
+docker build -t swift_test_app .
+```
+
+### Push App to Registry
+
+Tag and push the image up to the registry
+
+```
+docker tag swift_test_app:latest docker.conygre.com:5000/swift_test_app
+docker push docker.conygre.com:5000/swift_test_app
+```
+
+### Run MySQL
+
+Run a mysql (5.7) server instance with port forwarding and environment variables set
+
+```
+docker run -p 3306:3306 --name swift_mysql -e MYSQL_ROOT_PASSWORD=$PASSWORD -e MYSQL_USER=$USERNAME -e MYSQL_PASSWORD=$PASSWORD -e MYSQL_DATABASE=$DBNAME -d mysql:5.7
 ```
 
 Test connection
 
 ```
 mysql -u swift -p -h 127.0.0.1 -P 3306
-```
-
-### Build App
-
-```
-docker build -t swift_test_app .
-// tagged as swift_test_app, build from current directory
-```
-
-### Push App to Registry
-
-```
-docker tag swift_test_app:latest docker.conygre.com:5000/centos/swift_test_app
-docker push docker.conygre.com:5000/centos/swift_test_app
-```
-
-### TODO
-
-Dockerfile
-```
-FROM docker.conygre.com:5000/centos
-```
-
-```
-docker tag swift_test_app:latest docker.conygre.com:5000/swift_test_app
-docker push docker.conygre.com:5000/swift_test_app
 ```
