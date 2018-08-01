@@ -34,7 +34,7 @@ public class DefaultStrategyService implements StrategyService {
     public List<BollingerBandsStrategy> getAllBollingerStrategies() { return bollingerBandsStrategyRepository.findAll(); }
 
     @Override
-    public List<TwoMovingAveragesStrategy> getAllMovingAverageStrategies() {
+    public List<TwoMovingAveragesStrategy> getAllMovingAveragesStrategies() {
         return movingAveragesRepository.findAll();
     }
 

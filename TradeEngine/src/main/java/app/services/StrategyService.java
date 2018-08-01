@@ -13,7 +13,7 @@ public interface StrategyService {
 
     List<BollingerBandsStrategy> getAllBollingerStrategies();
 
-    List<TwoMovingAveragesStrategy> getAllMovingAverageStrategies();
+    List<TwoMovingAveragesStrategy> getAllMovingAveragesStrategies();
 
     List<Strategy> getActiveStrategies();
 
