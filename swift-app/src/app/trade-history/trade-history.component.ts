@@ -18,6 +18,7 @@ export class TradeHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('trade history');
     this.strategyService.getTradesById(this.strategyId)
       .subscribe(
         data => {

@@ -1,4 +1,4 @@
-<div  class="dropdown" style="float:left; width:45%; margin-right:2%; margin-left:10%;">
+<div  class="dropdown" style="float:left; width:50; margin-right:2%; margin-left:10%;">
   <h2>Your Strategies</h2>
   <select class="custom-select" [(ngModel)]="temp" (ngModelChange)="filterStrategies(temp)">
     <option class="dropdown-item" *ngFor = "let filter of filterHeaders" [value]="filter">{{filter}}</option>

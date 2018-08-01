@@ -13,6 +13,7 @@ import { AlertService} from './alert.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent, ModalContent} from './modal/modal.component';
 import { TradeHistoryComponent } from './trade-history/trade-history.component';
+import { TradeChartComponent } from './trade-chart/trade-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { TradeHistoryComponent } from './trade-history/trade-history.component';
     AlertComponent,
     ModalComponent,
     ModalContent,
-    TradeHistoryComponent
+    TradeHistoryComponent,
+    TradeChartComponent
   ],
   imports: [
     BrowserModule,

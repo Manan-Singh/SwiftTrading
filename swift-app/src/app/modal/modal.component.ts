@@ -6,13 +6,14 @@ import {UserServiceService} from '../user-service.service';
   selector: 'ngbd-modal-content',
   template: `
     <div class="modal-header">
-      <h4 class="modal-title">Hi there!</h4>
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <p>Strategy Performance: </p>
+      <button type="button" class="btn btn-default" aria-label="Refresh"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></button>
+      <app-trade-chart></app-trade-chart>
       <app-trade-history></app-trade-history>
     </div>
     <div class="modal-footer">
@@ -43,7 +44,6 @@ export class ModalComponent implements OnInit {
   }
 
   open(strategy:any){
-    console.log(strategy);
     this.userService.passStrategy(strategy);
     const modalRef = this.modalService.open(ModalContent, {size: 'lg' })
       .result.then((result) => {
