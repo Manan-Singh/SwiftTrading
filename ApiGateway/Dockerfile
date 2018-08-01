@@ -1,11 +1,13 @@
+FROM openjdk:8-alpine AS build
+
+WORKDIR /app
+
+COPY . .
+
 FROM openjdk:8-alpine
 
-VOLUME /tmp
+WORKDIR /app
 
-EXPOSE 8081
+COPY --from=build /app/target/ApiGateway-1.0-SNAPSHOT.jar .
 
-ARG JAR_FILE
-
-COPY ${JAR_FILE} app.jar
-
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "/app/ApiGateway-1.0-SNAPSHOT.jar"]
