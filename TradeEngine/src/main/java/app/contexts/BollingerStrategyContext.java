@@ -107,8 +107,6 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                     if (hasToClose) {
                         runningPnl += pairPnl;
                         if (shouldExit(startValue, exitPercentage, runningPnl)) {
-                            strategy.setIsActive(false);
-                            strategyService.createOrSaveBollingerStrategy(strategy);
                             break;
                         }
                         pairPnl = 0;
@@ -119,6 +117,11 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                     Thread.sleep(1000);
                 }
             }
+
+            strategy.setIsActive(false);
+            strategy.setProfitValue(runningPnl);
+            strategyService.createOrSaveBollingerStrategy(strategy);
+
             return null;
         }
 
