@@ -10,4 +10,4 @@ WORKDIR /app
 
 COPY --from=build /app/target/ApiGateway-1.0-SNAPSHOT.jar .
 
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "/app/ApiGateway-1.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/ApiGateway-1.0-SNAPSHOT.jar"]

@@ -1,13 +1,13 @@
 version: "3"
 
 services:
-  swift_mysql:
+  ${DBHOST}:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: swift
-      MYSQL_DATABASE: swift_mysql
-      MYSQL_USER: swift
-      MYSQL_PASSWORD: swift
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DBNAME}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${PASSWORD}
     ports:
       - 3306:3306
   swift_test_app:
@@ -17,7 +17,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://swift_mysql:3306/swift_mysql?useSSL=false
-      DATABASE_HOST: swift_mysql
-      DATABASE_USER: swift
-      DATABASE_PASSWORD: swift
+      SPRING_DATASOURCE_URL: jdbc:mysql://${DBHOST}:3306/${DBNAME}?useSSL=false
+      DATABASE_HOST: ${DBHOST}
+      DATABASE_USER: ${USERNAME}
+      DATABASE_PASSWORD: ${PASSWORD}
