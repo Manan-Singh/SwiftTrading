@@ -1,10 +1,10 @@
-FROM openjdk:8-alpine AS build
+FROM dockerreg.training.local:5000/centos AS build
 
 WORKDIR /app
 
 COPY . .
 
-FROM openjdk:8-alpine
+FROM dockerreg.training.local:5000/centos
 
 WORKDIR /app
 
