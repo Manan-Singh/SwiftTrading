@@ -4,6 +4,7 @@ import app.entities.Order;
 import app.entities.strategies.Strategy;
 import app.entities.strategies.TwoMovingAveragesStrategy;
 import app.services.StockPriceRecordService;
+import app.services.StrategyService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -22,6 +23,9 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
     private StockPriceRecordService stockService;
 
     @Autowired
+    private StrategyService strategyService;
+
+    @Autowired
     private JmsTemplate jmsTemplate;
 
     @Autowired
@@ -35,6 +39,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
         TwoMovingAveragesCallableStrategy callableStrategy = new TwoMovingAveragesCallableStrategy();
         callableStrategy.setTwoMovingAveragesStrategy( ((TwoMovingAveragesStrategy)s) );
         callableStrategy.setStockService(stockService);
+        callableStrategy.setStrategyService(strategyService);
         return callableStrategy;
     }
 
@@ -116,6 +121,8 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                         // check if exit condition has been violated
                         pnl += pairPnl;
                         if (pnl <= (startingValue - check) || pnl >= (startingValue + check) ) {
+                            strategy.setIsActive(false);
+                            strategyService.createOrSaveMovingAveragesStrategy(strategy);
                             break;
                         }
                         // reset pair pnl

@@ -12,5 +12,7 @@ public interface StockPriceRecordService {
 
     Double getAverageStockPrice(int period, String ticker);
 
+    Double getStdDev(int period, String ticker);
+
     Double getMostRecentStockPrice(String ticker);
 }

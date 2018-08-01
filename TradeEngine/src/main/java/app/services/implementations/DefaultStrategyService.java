@@ -1,8 +1,12 @@
 package app.services.implementations;
 
 import app.entities.Trade;
+import app.entities.strategies.BollingerBandsStrategy;
 import app.entities.strategies.Strategy;
+import app.entities.strategies.TwoMovingAveragesStrategy;
+import app.repositories.BollingerBandsStrategyRepository;
 import app.repositories.StrategyRepository;
+import app.repositories.TwoMovingAveragesRepository;
 import app.services.StrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +19,23 @@ public class DefaultStrategyService implements StrategyService {
     @Autowired
     private StrategyRepository strategyRepository;
 
+    @Autowired
+    private BollingerBandsStrategyRepository bollingerBandsStrategyRepository;
+
+    @Autowired
+    private TwoMovingAveragesRepository movingAveragesRepository;
+
     @Override
     public List<Strategy> getAllStrategies() {
         return strategyRepository.findAll();
+    }
+
+    @Override
+    public List<BollingerBandsStrategy> getAllBollingerStrategies() { return bollingerBandsStrategyRepository.findAll(); }
+
+    @Override
+    public List<TwoMovingAveragesStrategy> getAllMovingAveragesStrategies() {
+        return movingAveragesRepository.findAll();
     }
 
     @Override
@@ -33,6 +51,16 @@ public class DefaultStrategyService implements StrategyService {
     @Override
     public Strategy createStrategy(Strategy strategy) {
         return strategyRepository.save(strategy);
+    }
+
+    @Override
+    public BollingerBandsStrategy createOrSaveBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy){
+        return bollingerBandsStrategyRepository.save(bollingerBandsStrategy);
+    }
+
+    @Override
+    public TwoMovingAveragesStrategy createOrSaveMovingAveragesStrategy(TwoMovingAveragesStrategy twoMovingAveragesStrategy) {
+        return movingAveragesRepository.save(twoMovingAveragesStrategy);
     }
 
     @Override

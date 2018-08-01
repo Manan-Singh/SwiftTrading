@@ -16,7 +16,9 @@ public interface StockPriceRecordRepository extends JpaRepository<StockPriceReco
     @Query(value = "SELECT AVG(Price) FROM StockPriceRecords WHERE Ticker = ?2 AND TimeInspected >= NOW() - INTERVAL ?1 SECOND", nativeQuery = true)
     Double getAverageStockPrice(int period, String ticker);
 
+    @Query(value = "SELECT STDDEV(Price) FROM StockPriceRecords WHERE Ticker = ?2 AND TimeInspected >= NOW() - INTERVAL ?1 SECOND", nativeQuery = true)
+    Double getStdDevStockPrice(int period, String ticker);
+
     @Query(value = "SELECT Price FROM StockPriceRecords WHERE Ticker = ?1 order by TimeInspected desc LIMIT 1", nativeQuery = true)
     Double getMostRecentStockPrice(String ticker);
-
 }
