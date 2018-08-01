@@ -28,9 +28,9 @@ export class TradeChartComponent implements OnInit {
           //for loop
           let dates = [];
           let prices = [];
-          for(let res of data){
-            dates.push(res.timeTransacted);
-            prices.push(res.price);
+          for(let res in data){
+            dates.push(data[res].timeTransacted);
+            prices.push(data[res].price);
           }
           console.log(data);
           console.log(dates);
