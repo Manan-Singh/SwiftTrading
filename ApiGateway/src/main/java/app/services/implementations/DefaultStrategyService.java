@@ -64,8 +64,24 @@ public class DefaultStrategyService implements StrategyService {
     }
 
     @Override
-    public Strategy updateStrategy(Strategy strategy) {
-        return strategyRepository.save(strategy);
+    public Strategy updateStrategy(Integer id, Strategy strategy) {
+        Strategy oldStrategy = strategyRepository.getOne(id);
+        oldStrategy.setIsActive(strategy.getIsActive());
+        oldStrategy.setClosePercentage(strategy.getClosePercentage());
+        oldStrategy.setEntrySize(strategy.getEntrySize());
+        oldStrategy.setName(strategy.getName());
+        return strategyRepository.save(oldStrategy);
+    }
+
+    @Override
+    public Strategy toggleIsActiveField(Integer id) {
+        Strategy strategy = strategyRepository.getOne(id);
+        if (strategy != null) {
+            Boolean isActive = strategy.getIsActive();
+            strategy.setIsActive(!isActive);
+            strategyRepository.save(strategy);
+        }
+        return strategy;
     }
 
     @Override

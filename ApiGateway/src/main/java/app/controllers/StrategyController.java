@@ -5,7 +5,11 @@ import app.entities.strategies.BollingerBandsStrategy;
 import app.entities.strategies.Strategy;
 import app.entities.strategies.TwoMovingAveragesStrategy;
 import app.services.StrategyService;
+import com.sun.net.httpserver.Authenticator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMessage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,13 +58,23 @@ public class StrategyController {
         return strategyService.createOrSaveMovingAveragesStrategy(strategy);
     }
 
-    @PutMapping("/strategies")
-    public Strategy updateStrategy(@RequestBody Strategy strategy) {return strategyService.updateStrategy(strategy); }
+    @PutMapping("/strategies/{id}")
+    public Strategy updateStrategy(@PathVariable("id") Integer id, @RequestBody Strategy strategy) {
+        return strategyService.updateStrategy(id, strategy);
+    }
+
+    @PutMapping("/strategies/{id}/toggleIsActive")
+    public Strategy toggleIsActiveField(@PathVariable("id") Integer id) {return strategyService.toggleIsActiveField(id);}
 
     @DeleteMapping("/strategies/{id}")
-    public void deleteStrategy(@PathVariable("id") Integer id){
-        // TODO: only delete inactive strategies
-        strategyService.deleteStrategyById(id);
+    public ResponseEntity<?> deleteStrategy(@PathVariable("id") Integer id){
+        Strategy strategy = strategyService.getStrategyById(id);
+        if (!strategy.getIsActive()){
+            strategyService.deleteStrategyById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        // Status Code 409
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @GetMapping("/strategies/{id}/trades")
