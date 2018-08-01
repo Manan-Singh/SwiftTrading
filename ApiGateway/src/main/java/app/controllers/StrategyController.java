@@ -3,8 +3,8 @@ package app.controllers;
 import app.entities.Trade;
 import app.entities.strategies.BollingerBandsStrategy;
 import app.entities.strategies.Strategy;
+import app.entities.strategies.TwoMovingAveragesStrategy;
 import app.services.StrategyService;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,13 +35,23 @@ public class StrategyController {
     public Strategy addStrategy(@RequestBody Strategy strategy) {return strategyService.createStrategy(strategy); }
 
     @GetMapping("/strategies/bollinger")
-    public List<BollingerBandsStrategy> getAllBollingerBandsStrategy(){
+    public List<BollingerBandsStrategy> getAllBollingerBandsStrategies(){
         return strategyService.getAllBollingerStrategies();
     }
 
     @PostMapping("/strategies/bollinger")
     public BollingerBandsStrategy addBollingerBandsStrategy(@RequestBody BollingerBandsStrategy strategy){
         return strategyService.createBollingerStrategy(strategy);
+    }
+
+    @GetMapping("/strategies/movingaverages")
+    public List<TwoMovingAveragesStrategy> getAllMovingAveragesStrategies(){
+        return strategyService.getAllMovingAveragesStrategies();
+    }
+
+    @PostMapping("/strategies/movingaverages")
+    public TwoMovingAveragesStrategy addMovingAveragesStrategy(@RequestBody TwoMovingAveragesStrategy strategy){
+        return strategyService.createMovingAveragesStrategy(strategy);
     }
 
     @PutMapping("/strategies")

@@ -3,6 +3,7 @@ package app.services;
 import app.entities.Trade;
 import app.entities.strategies.BollingerBandsStrategy;
 import app.entities.strategies.Strategy;
+import app.entities.strategies.TwoMovingAveragesStrategy;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public interface StrategyService {
 
     List<BollingerBandsStrategy> getAllBollingerStrategies();
 
+    List<TwoMovingAveragesStrategy> getAllMovingAveragesStrategies();
+
     List<Strategy> getActiveStrategies();
 
     Strategy getStrategyById(Integer id);
@@ -19,6 +22,8 @@ public interface StrategyService {
     Strategy createStrategy(Strategy strategy);
 
     BollingerBandsStrategy createBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy);
+
+    TwoMovingAveragesStrategy createMovingAveragesStrategy(TwoMovingAveragesStrategy twoMovingAveragesStrategy);
 
     Strategy updateStrategy(Strategy strategy);
 
