@@ -121,8 +121,6 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                         // check if exit condition has been violated
                         pnl += pairPnl;
                         if (pnl <= (startingValue - check) || pnl >= (startingValue + check) ) {
-                            strategy.setIsActive(false);
-                            strategyService.createOrSaveMovingAveragesStrategy(strategy);
                             break;
                         }
                         // reset pair pnl
@@ -135,6 +133,10 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                     Thread.sleep(1000);
                 }
             }
+
+            strategy.setIsActive(false);
+            strategy.setProfitValue(pnl);
+            strategyService.createOrSaveMovingAveragesStrategy(strategy);
 
             return null;
         }

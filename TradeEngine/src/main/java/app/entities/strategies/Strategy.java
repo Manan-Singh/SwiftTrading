@@ -42,7 +42,7 @@ public class Strategy implements Serializable {
     private String ticker;
 
     @Column(name = "ProfitValue")
-    private Integer profitValue;
+    private Double profitValue;
 
     @OneToMany(mappedBy = "strategy", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -87,9 +87,9 @@ public class Strategy implements Serializable {
 
     public void setName(String name) { this.name = name; }
 
-    public Integer getProfitValue() { return profitValue; }
+    public Double getProfitValue() { return profitValue; }
 
-    public void setProfitValue(Integer profitValue) { this.profitValue = profitValue; }
+    public void setProfitValue(Double profitValue) { this.profitValue = profitValue; }
 
     public void setTrades(List<Trade> trades) { this.trades = trades; }
 
