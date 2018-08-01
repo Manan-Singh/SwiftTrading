@@ -1,13 +1,13 @@
-FROM openjdk:8-alpine AS build
+FROM dockerreg.training.local:5000/java AS build
 
 WORKDIR /app
 
 COPY . .
 
-FROM openjdk:8-alpine
+FROM dockerreg.training.local:5000/java
 
 WORKDIR /app
 
-COPY --from=build /app/target/ApiGateway-1.0-SNAPSHOT.jar .
+COPY --from=build /app/target/TradingEngine-1.0-SNAPSHOT.jar .
 
 ENTRYPOINT ["java", "-jar", "/app/TradingEngine-1.0-SNAPSHOT.jar"]
