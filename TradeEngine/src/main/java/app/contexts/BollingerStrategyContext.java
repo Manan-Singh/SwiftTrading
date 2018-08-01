@@ -63,8 +63,13 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
             final double DEFAULT_MULTIPLIER = 2.0;
 
             while (!Thread.currentThread().isInterrupted()) {
-                double movingAvg = stockService.getAverageStockPrice(strategy.getPeriod(), strategy.getTicker());
-                double movingStdDev = stockService.getStdDev(strategy.getPeriod(), strategy.getTicker());
+                Double movingAvg = stockService.getAverageStockPrice(strategy.getPeriod(), strategy.getTicker());
+                Double movingStdDev = stockService.getStdDev(strategy.getPeriod(), strategy.getTicker());
+                if (movingAvg == null || movingStdDev == null) {
+                    // in case the feed doesn't have any data on prices yet
+                    Thread.sleep(1000);
+                    continue;
+                }
 
                 double currentPrice = stockService.getMostRecentStockPrice(strategy.getTicker());
                 if (startValue == 0) {
