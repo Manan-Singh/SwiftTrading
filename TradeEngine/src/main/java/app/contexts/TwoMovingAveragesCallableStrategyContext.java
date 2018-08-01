@@ -130,6 +130,9 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                     }
 
                     hasToClose = !hasToClose;
+
+                    // introduce artificial lag to make it not execute trades on the same timestamp
+                    Thread.sleep(1000);
                 }
             }
 

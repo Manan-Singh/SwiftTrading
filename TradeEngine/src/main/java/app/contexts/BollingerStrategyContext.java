@@ -62,18 +62,13 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
             //TODO: make this multiplier configurable?
             final double DEFAULT_MULTIPLIER = 2.0;
 
-            while (Thread.currentThread().isInterrupted()) {
+            while (!Thread.currentThread().isInterrupted()) {
                 double movingAvg = stockService.getAverageStockPrice(strategy.getPeriod(), strategy.getTicker());
                 double movingStdDev = stockService.getStdDev(strategy.getPeriod(), strategy.getTicker());
 
                 double currentPrice = stockService.getMostRecentStockPrice(strategy.getTicker());
                 if (startValue == 0) {
                     startValue = currentPrice;
-                } else {
-                    // check if the current market price violates the exit condition (this is for unrealized gains)
-                    if (shouldExit(startValue, exitPercentage, currentPrice)) {
-                        break;
-                    }
                 }
 
                 Order order = null;
@@ -116,7 +111,7 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                     hasToClose = !hasToClose;
 
                     // introduce artificial lag to make it not execute trades on the same timestamp
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 }
             }
             return null;
