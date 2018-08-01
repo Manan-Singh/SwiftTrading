@@ -54,12 +54,12 @@ public class DefaultStrategyService implements StrategyService {
     }
 
     @Override
-    public BollingerBandsStrategy createBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy){
+    public BollingerBandsStrategy createOrSaveBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy){
         return bollingerBandsStrategyRepository.save(bollingerBandsStrategy);
     }
 
     @Override
-    public TwoMovingAveragesStrategy createMovingAveragesStrategy(TwoMovingAveragesStrategy twoMovingAveragesStrategy){
+    public TwoMovingAveragesStrategy createOrSaveMovingAveragesStrategy(TwoMovingAveragesStrategy twoMovingAveragesStrategy){
         return twoMovingAveragesStrategyRepository.save(twoMovingAveragesStrategy);
     }
 

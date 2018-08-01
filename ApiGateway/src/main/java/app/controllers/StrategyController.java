@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class StrategyController {
@@ -41,7 +41,7 @@ public class StrategyController {
 
     @PostMapping("/strategies/bollinger")
     public BollingerBandsStrategy addBollingerBandsStrategy(@RequestBody BollingerBandsStrategy strategy){
-        return strategyService.createBollingerStrategy(strategy);
+        return strategyService.createOrSaveBollingerStrategy(strategy);
     }
 
     @GetMapping("/strategies/movingaverages")
@@ -51,7 +51,7 @@ public class StrategyController {
 
     @PostMapping("/strategies/movingaverages")
     public TwoMovingAveragesStrategy addMovingAveragesStrategy(@RequestBody TwoMovingAveragesStrategy strategy){
-        return strategyService.createMovingAveragesStrategy(strategy);
+        return strategyService.createOrSaveMovingAveragesStrategy(strategy);
     }
 
     @PutMapping("/strategies")
