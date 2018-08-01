@@ -8,6 +8,7 @@ import app.services.StrategyService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Service;
 
 import javax.jms.Message;
 import javax.jms.Queue;
@@ -15,6 +16,7 @@ import javax.jms.Session;
 import java.io.Serializable;
 import java.util.UUID;
 
+@Service
 public class BollingerStrategyContext extends CallableStrategyContext implements Serializable {
 
     @Autowired
