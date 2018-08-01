@@ -1,10 +1,10 @@
-FROM dockerreg.training.local:5000/centos AS build
+FROM dockerreg.training.local:5000/java AS build
 
 WORKDIR /app
 
 COPY . .
 
-FROM dockerreg.training.local:5000/centos
+FROM dockerreg.training.local:5000/java
 
 WORKDIR /app
 
