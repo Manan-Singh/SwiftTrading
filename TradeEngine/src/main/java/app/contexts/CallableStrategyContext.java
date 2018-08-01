@@ -36,5 +36,15 @@ public abstract class CallableStrategyContext {
             order.setTimeTransacted(LocalDateTime.now().toString());
             return order;
         }
+
+
+        // checks if the pnl violates the exit condition
+        protected boolean shouldExit(double startValue, double exitPercentage, double pnl) {
+            double margin = startValue * exitPercentage;
+            if (pnl < startValue - margin || pnl > startValue + margin) {
+                return true;
+            }
+            return false;
+        }
     }
 }

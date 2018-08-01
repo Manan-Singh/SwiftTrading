@@ -30,6 +30,11 @@ public class DefaultStockPriceRecordService implements StockPriceRecordService {
     }
 
     @Override
+    public Double getStdDev(int period, String ticker) {
+        return repo.getStdDevStockPrice(period, ticker);
+    }
+
+    @Override
     public Double getMostRecentStockPrice(String ticker) {
         return repo.getMostRecentStockPrice(ticker);
     }
