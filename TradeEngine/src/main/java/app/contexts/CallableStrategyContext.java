@@ -4,6 +4,7 @@ import app.entities.Order;
 import app.entities.StockPriceRecord;
 import app.entities.strategies.Strategy;
 import app.services.StockPriceRecordService;
+import app.services.StrategyService;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.Callable;
@@ -17,6 +18,7 @@ public abstract class CallableStrategyContext {
         protected static final int DEFAULT_ENTRY = 50;
 
         protected StockPriceRecordService stockService;
+        protected StrategyService strategyService;
 
         protected StockPriceRecordService getStockService() {
             return stockService;
@@ -24,6 +26,14 @@ public abstract class CallableStrategyContext {
 
         protected void setStockService(StockPriceRecordService stockService) {
             this.stockService = stockService;
+        }
+
+        protected StrategyService getStrategyService() {
+            return strategyService;
+        }
+
+        protected void setStrategyService(StrategyService strategyService) {
+            this.strategyService = strategyService;
         }
 
         protected Order getOrder(boolean buyTrade, double price, int size, Strategy s) {

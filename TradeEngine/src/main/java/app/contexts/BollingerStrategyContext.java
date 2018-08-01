@@ -4,6 +4,7 @@ import app.entities.Order;
 import app.entities.strategies.BollingerBandsStrategy;
 import app.entities.strategies.Strategy;
 import app.services.StockPriceRecordService;
+import app.services.StrategyService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
@@ -20,6 +21,9 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
     private StockPriceRecordService stockService;
 
     @Autowired
+    private StrategyService strategyService;
+
+    @Autowired
     private JmsTemplate jmsTemplate;
 
     @Autowired
@@ -33,6 +37,7 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
         BollingerCallableStrategy callableStrategy = new BollingerCallableStrategy();
         callableStrategy.setBollingerStrategy( (BollingerBandsStrategy)s );
         callableStrategy.setStockService(stockService);
+        callableStrategy.setStrategyService(strategyService);
         return callableStrategy;
     }
 
@@ -100,11 +105,16 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                     if (hasToClose) {
                         runningPnl += pairPnl;
                         if (shouldExit(startValue, exitPercentage, runningPnl)) {
+                            strategy.setIsActive(false);
+                            strategyService.createOrSaveBollingerStrategy(strategy);
                             break;
                         }
                         pairPnl = 0;
                     }
                     hasToClose = !hasToClose;
+
+                    // introduce artificial lag to make it not execute trades on the same timestamp
+                    Thread.sleep(500);
                 }
             }
             return null;
