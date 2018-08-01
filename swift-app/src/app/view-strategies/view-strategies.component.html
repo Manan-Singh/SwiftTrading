@@ -1,8 +1,11 @@
-<div>
-  <select [(ngModel)]="temp" (ngModelChange)="filterStrategies(temp)">
-    <option *ngFor = "let filter of filterHeaders" [value]="filter">{{filter}}</option>
+<div  class="dropdown" style="float:left; width:45%; margin-right:2%; margin-left:10%;">
+  <h2>Your Strategies</h2>
+  <select class="custom-select" [(ngModel)]="temp" (ngModelChange)="filterStrategies(temp)">
+    <option class="dropdown-item" *ngFor = "let filter of filterHeaders" [value]="filter">{{filter}}</option>
   </select>
-<table id="keywords">
+
+
+<table class="table table-hover">
   <thead>
     <tr>
       <th>ID</th>
@@ -18,8 +21,15 @@
     <td>{{strat.ticker}}</td>
     <td>{{strat.close}}</td>
     <td>{{strat.isActive}}</td>
-    <td><button (click)="deleteStrategy(strat)">Delete</button></td>
+    <app-modal #modal></app-modal>
+    <td><button class="btn btn-outline-info" (click)="modal.open(strat)">More details</button></td>
+    <!--<td><button class= "btn btn-outline-info" (click)="strategyDetails(strat)">More details</button></td> -->
+    <td><button class= "btn btn-outline-warning" click="pauseStrategy(strat)">Pause</button></td>
+    <td><button class= "btn btn-outline-danger" (click)="deleteStrategy(strat)">Delete</button></td>
   </tr>
 </table>
+
 </div>
+
+
 

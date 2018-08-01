@@ -1,31 +1,31 @@
-<div class="container" align="center">
-  <form class="form-group" (ngSubmit)="f.form.valid && newStrategy()" #f="ngForm">
-    <h2>Strategy</h2>
+
+<div class="form-group"  style="float:left; width:30%; align:center">
+  <form (ngSubmit)="f.form.valid && newStrategy()" #f="ngForm">
+    <h2>New Strategy</h2>
+    <label for="strategy" class="sr-only">Strategy </label>
+    <select class = "form-control" id = "strategy" name="strategy" [(ngModel)]="strategy.flag" required>
+      <option *ngFor="let strategy of strategies" [value]="strategy">{{strategy}}</option>
+    </select><br>
     <label for="strategy_name" class="sr-only">Strategy Name</label>
     <input class="form-control" id="strategy_name" name="strategy_name"[(ngModel)]="strategy.name"  placeholder="Strategy Name" required> <br>
     <label for="exit_position" class="sr-only">Exit Position</label>
     <input class="form-control" id="exit_position"  name="exit_position"[(ngModel)]="strategy.close" placeholder="Exit Position" required> <br>
     <label for="stock" class="sr-only">Stock</label>
     <select class = "form-control" id = "stock" name="stock" [(ngModel)]="strategy.ticker" required>
-      <option value="" hidden>Select your ticker</option>
       <option *ngFor="let tick of ticker" [value]="tick">{{tick}}</option>
     </select><br>
-    <label for="strategy" class="sr-only">Strategy </label>
-    <select class = "form-control" id = "strategy" name="strategy" [(ngModel)]="strategy.flag" required>
-      <option value="" hidden>Select your strategy</option>
-      <option *ngFor="let strategy of strategies" [value]="strategy">{{strategy}}</option>
-    </select>
     <label for="longTime" class="sr-only">Long</label>
-    <input class="form-control" id="longTime" *ngIf= "strategy.flag == 'Two Moving Averages'" name="longTime" [(ngModel)]="twoMovingAverages.longTime" placeholder="Long" required><br>
-    <label for="shortTime" class="sr-only">Long</label>
-    <input class="form-control" id="shortTime" *ngIf= "strategy.flag == 'Two Moving Averages'" name="shortTime" [(ngModel)]="twoMovingAverages.shortTime" placeholder="Short" required>
+    <input class="form-control" id="longTime" *ngIf= "strategy.flag == 'Two Moving Averages'" name="longTime" [(ngModel)]="twoMovingAverages.longTime" placeholder="Long" required>
     <label for="period" class="sr-only">Long</label>
     <input class="form-control" id="period" *ngIf= "strategy.flag == 'Bollinger Bands'" name="period" [(ngModel)]="bollingerBands.period" placeholder="Period" required><br>
+    <label for="shortTime" class="sr-only">Long</label>
+    <input class="form-control" id="shortTime" *ngIf= "strategy.flag == 'Two Moving Averages'" name="shortTime" [(ngModel)]="twoMovingAverages.shortTime" placeholder="Short" required>
     <label for="stdev" class="sr-only">Long</label>
     <input class="form-control" id="stdev" *ngIf= "strategy.flag == 'Bollinger Bands'" name="stdev" [(ngModel)]="bollingerBands.stdDev" placeholder="Standard Deviation" required>
-    <button class="btn btn-success" type="submit" name="create_strategy">Create Strategy</button>
+    <button class="btn btn-outline-primary" type="submit" name="create_strategy">Create Strategy</button>
   </form>
 </div>
+
 
 
 

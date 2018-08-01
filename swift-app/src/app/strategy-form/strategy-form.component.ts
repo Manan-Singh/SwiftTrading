@@ -28,10 +28,8 @@ export class StrategyFormComponent implements OnInit {
       this.twoMovingAverages.name = this.strategy.name;
       this.twoMovingAverages.close = this.strategy.close;
       this.twoMovingAverages.ticker = this.strategy.ticker;
-      console.log(this.twoMovingAverages);
       this.strategyService.createTwoMovingAverageStrategy(this.twoMovingAverages).subscribe(
         data => {
-          console.log('Done!');
           location.reload();
           this.alertService.success('Successfully created a new two moving average strategy!');
         },
@@ -44,19 +42,15 @@ export class StrategyFormComponent implements OnInit {
       this.bollingerBands.name = this.strategy.name;
       this.bollingerBands.close= this.strategy.close;
       this.bollingerBands.ticker = this.strategy.ticker;
-      console.log(this.bollingerBands);
       this.strategyService.createBollingerBandsStrategy(this.bollingerBands).subscribe(
         data => {
-          console.log('Done!');
-          console.log(data);
-          //location.reload();
+          location.reload();
           this.alertService.success('Successfully created a new bollinger bands strategy!');
           },
         error => {
           this.alertService.error('Error creating new strategy');
           console.log('Error creating new strategy'); });
     }
-    console.log('done');
 
   }
 }

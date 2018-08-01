@@ -10,7 +10,9 @@ import { StrategyFormComponent } from './strategy-form/strategy-form.component';
 import { ViewStrategiesComponent } from './view-strategies/view-strategies.component';
 import { AlertComponent } from './alert/alert.component';
 import { AlertService} from './alert.service';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent, ModalContent} from './modal/modal.component';
+import { TradeHistoryComponent } from './trade-history/trade-history.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,14 +20,18 @@ import { AlertService} from './alert.service';
     StrategyFormComponent,
     ViewStrategiesComponent,
     AlertComponent,
-
+    ModalComponent,
+    ModalContent,
+    TradeHistoryComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule.forRoot()
   ],
+  entryComponents:[ModalContent],
   providers: [UserServiceService, AlertService],
   bootstrap: [AppComponent]
 })

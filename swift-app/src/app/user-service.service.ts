@@ -7,7 +7,7 @@ import {map} from "rxjs/operators";
 
 
 export class UserServiceService {
-
+  strategy: string;
   private userUrl = '/api';
   constructor(private http:HttpClient) { }
 
@@ -15,6 +15,14 @@ export class UserServiceService {
     console.log("got here!");
     return this.http.get('http://localhost:8081/api',{responseType: 'text'});
     //return this.http.get(this.uerUrl,{responseType: 'text'});
+  }
+
+  passStrategy(strategy: any){
+    this.strategy = strategy;
+  }
+
+  getStrategy(){
+    return this.strategy;
   }
 
 }
