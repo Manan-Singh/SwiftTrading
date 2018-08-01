@@ -25,7 +25,6 @@ export class TradeChartComponent implements OnInit {
     this.strategyService.getTradesById(this.strategyId)
       .subscribe(
         data => {
-          console.log(data);
           //for loop
           let dates = [];
           let prices = [];
@@ -33,6 +32,8 @@ export class TradeChartComponent implements OnInit {
             dates.push(res.timeTransacted);
             prices.push(res.price);
           }
+          console.log(data);
+          console.log(dates);
 
           this.chart = new Chart('canvas', {
             type: 'line',
@@ -60,7 +61,6 @@ export class TradeChartComponent implements OnInit {
               }
             }
           });
-        }
         },
         error =>{
           console.log('Error retrieving trades by id in trade chart');
