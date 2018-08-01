@@ -1,5 +1,7 @@
 package app.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.xml.bind.annotation.XmlElement;
 
 public class TradeDTO extends Order {
@@ -7,6 +9,7 @@ public class TradeDTO extends Order {
     public TradeDTO() {}
 
     @XmlElement(name = "result")
+    @JsonProperty("result")
     private String state;
 
     public String getState() {
