@@ -32,9 +32,10 @@ export class TradeChartComponent implements OnInit {
             dates.push(data[res].timeTransacted);
             prices.push(data[res].price);
           }
-          console.log(data);
-          console.log(dates);
-
+          for(let res in dates){
+            const splitDates = dates[res].split('T');
+            dates[res] = splitDates[1];
+          }
           this.chart = new Chart('canvas', {
             type: 'line',
             data: {

@@ -16,7 +16,7 @@ export class StrategyFormComponent implements OnInit {
   twoMovingAverages = new TwoMovingAverages();
   bollingerBands = new BollingerBands();
   strategies = ['Two Moving Averages', 'Bollinger Bands'];
-  ticker = ['AAPL', 'GOOG', 'BRK-A', 'NSC', 'MSFT'];
+  flag: any = 'Strategy';
 
   constructor(private strategyService: StrategyService, private userService: UserServiceService, private alertService: AlertService) { }
   ngOnInit() {
@@ -24,7 +24,7 @@ export class StrategyFormComponent implements OnInit {
 
   newStrategy() {
     console.log('Submitting a new strategy');
-    if(this.strategy.flag === 'Two Moving Averages'){
+    if(this.flag === 'Two Moving Averages'){
       this.twoMovingAverages.name = this.strategy.name;
       this.twoMovingAverages.close = this.strategy.close;
       this.twoMovingAverages.ticker = this.strategy.ticker;
@@ -38,7 +38,7 @@ export class StrategyFormComponent implements OnInit {
           this.alertService.error('Error creating new strategy');
         });
     }
-    else{
+    else if(this.flag === 'Bollinger Bands'){
       this.bollingerBands.name = this.strategy.name;
       this.bollingerBands.close= this.strategy.close;
       this.bollingerBands.ticker = this.strategy.ticker;
