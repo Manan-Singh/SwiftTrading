@@ -56,6 +56,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
 
             // value of first buy/sell
             double startingValue = 0;
+            int tradeSize = strategy.getEntrySize();
             double exitPercent = strategy.getClosePercentage();
             double check = 0;
             // running pnl since start of strategy
@@ -82,7 +83,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
 
                 double currentPrice = stockService.getMostRecentStockPrice(strategy.getTicker());
                 if (startingValue == 0) {
-                    startingValue = currentPrice * DEFAULT_ENTRY;
+                    startingValue = currentPrice * tradeSize;
                     check = startingValue * exitPercent;
                 }
 
@@ -92,12 +93,12 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
 
                     if ( (prevLongAvg - prevShortAvg) < 0 && (longAvg - shortAvg) > 0 ) {
                         // you should sell
-                        order = getOrder(false, currentPrice, DEFAULT_ENTRY, strategy);
-                        pairPnl += currentPrice * DEFAULT_ENTRY;
+                        order = getOrder(false, currentPrice, tradeSize, strategy);
+                        pairPnl += currentPrice * tradeSize;
                     } else if ( (prevLongAvg - prevShortAvg) > 0  && (longAvg - shortAvg) < 0) {
                         // you should buy
-                        order = getOrder(true, currentPrice, DEFAULT_ENTRY, strategy);
-                        pairPnl -= currentPrice * DEFAULT_ENTRY;
+                        order = getOrder(true, currentPrice, tradeSize, strategy);
+                        pairPnl -= currentPrice * tradeSize;
                     }
                 }
 

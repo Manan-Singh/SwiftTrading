@@ -23,7 +23,7 @@ public class Strategy implements Serializable {
 
     @Column(name = "IsActive")
     @JsonProperty("isActive")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Column(name = "Name")
     @JsonProperty("name")
@@ -33,9 +33,9 @@ public class Strategy implements Serializable {
     @JsonProperty("close")
     private Integer closePercentage;
 
-    public String getTicker() {
-        return ticker;
-    }
+    @Column(name = "EntrySize")
+    @JsonProperty("entrySize")
+    private Integer entrySize;
 
     @Column(name = "Ticker")
     @JsonProperty("ticker")
@@ -83,6 +83,14 @@ public class Strategy implements Serializable {
         this.closePercentage = closePercentage;
     }
 
+    public Integer getEntrySize() {
+        return entrySize;
+    }
+
+    public void setEntrySize(Integer entrySize) {
+        this.entrySize = entrySize;
+    }
+
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
@@ -92,6 +100,10 @@ public class Strategy implements Serializable {
     public void setProfitValue(Double profitValue) { this.profitValue = profitValue; }
 
     public void setTrades(List<Trade> trades) { this.trades = trades; }
+
+    public String getTicker() {
+        return ticker;
+    }
 
     public void setTicker(String ticker) {
         this.ticker = ticker;
