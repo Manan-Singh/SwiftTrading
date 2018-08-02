@@ -99,4 +99,12 @@ public class DefaultStrategyService implements StrategyService {
         Strategy strategy = strategyRepository.getOne(id);
         return strategy.getTrades();
     }
+
+    public StrategyRepository getStrategyRepository() {
+        return strategyRepository;
+    }
+
+    public void setStrategyRepository(StrategyRepository strategyRepository) {
+        this.strategyRepository = strategyRepository;
+    }
 }
