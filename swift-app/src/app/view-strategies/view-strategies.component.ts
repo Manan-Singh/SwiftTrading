@@ -43,7 +43,7 @@ export class ViewStrategiesComponent implements OnInit {
           this.alertService.success('Successfully deleted strategy');
         },
         error => {
-          this.alertService.error('Error deleting strategy!')
+          this.alertService.error('Error deleting strategy! Strategies can not be deleted if it is active');
           console.log('Error deleting strategy');
         }
       );
