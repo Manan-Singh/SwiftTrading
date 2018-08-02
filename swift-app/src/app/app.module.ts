@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
-import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { AppRoutingModule } from './/app-routing.module';
 import {UserServiceService} from './/user-service.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -17,7 +16,6 @@ import { TradeChartComponent } from './trade-chart/trade-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HelloWorldComponent,
     StrategyFormComponent,
     ViewStrategiesComponent,
     AlertComponent,

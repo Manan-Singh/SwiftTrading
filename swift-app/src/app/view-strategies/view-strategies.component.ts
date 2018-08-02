@@ -1,7 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StrategyService} from '../strategy.service';
 import {AlertService} from '../alert.service';
-import {Alert, AlertType} from '../models/alert';
 
 @Component({
   selector: 'app-view-strategies',
