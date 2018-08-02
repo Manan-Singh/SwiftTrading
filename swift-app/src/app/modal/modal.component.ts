@@ -4,7 +4,7 @@ import {UserServiceService} from '../user-service.service';
 
 @Component({
   selector: 'ngbd-modal-content',
-  template: `
+  template: `    
     <div class="modal-header">
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -12,7 +12,6 @@ import {UserServiceService} from '../user-service.service';
     </div>
     <div class="modal-body">
       <p>Strategy Performance: </p>
-      <button type="button" class="btn btn-default" aria-label="Refresh"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></button>
       <app-trade-chart></app-trade-chart>
       <app-trade-history></app-trade-history>
     </div>

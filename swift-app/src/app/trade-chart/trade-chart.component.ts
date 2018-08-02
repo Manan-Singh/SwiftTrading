@@ -68,6 +68,52 @@ export class TradeChartComponent implements OnInit {
         }
       );
   }
-
+  refreshTrades(){
+    this.strategyService.getTradesById(this.strategyId)
+      .subscribe(
+        data => {
+          //for loop
+          let dates = [];
+          let prices = [];
+          for(let res in data){
+            dates.push(data[res].timeTransacted);
+            prices.push(data[res].price);
+          }
+          for(let res in dates){
+            const splitDates = dates[res].split('T');
+            dates[res] = splitDates[1];
+          }
+          this.chart = new Chart('canvas', {
+            type: 'line',
+            data: {
+              labels: dates,
+              datasets: [
+                {
+                  data: prices,
+                  borderColor: '#3cba9f',
+                  fill: false
+                }
+              ]
+            },
+            options: {
+              legend: {
+                display: false
+              },
+              scales: {
+                xAxes: [{
+                  display: true
+                }],
+                yAxes: [{
+                  display: true
+                }],
+              }
+            }
+          });
+        },
+        error =>{
+          console.log('Error retrieving trades by id in trade chart');
+        }
+      );
+  }
 
 }
