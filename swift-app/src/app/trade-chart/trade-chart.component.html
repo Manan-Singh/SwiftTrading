@@ -1,0 +1,8 @@
+<b style="text-decoration: underline">Strategy Performance</b><br><b>Real P&L: </b>
+<b [ngClass]="{'positive': realPnl >= 0, 'negative':realPnl <0}">${{realPnl}}</b>
+<b> Potential P&L: </b>
+<b [ngClass]="{'positive': potentialPnl >= 0, 'negative':potentialPnl <0}">${{potentialPnl}}</b>
+<button type="button" class="btn btn-outline-dark btn-sm" style="margin-bottom: 3%; float:right;" (click)="refreshTrades()">Refresh</button>
+<div [hidden]="!chart">
+  <canvas id="canvas">{{ chart }}</canvas>
+</div>

@@ -1,0 +1,33 @@
+
+<div class="form-group"  style="float:left; width:30%; align:center">
+  <form (ngSubmit)="f.form.valid && newStrategy()" #f="ngForm">
+    <h2>New Strategy</h2>
+    Choose strategy type:
+    <label for="strategy" class="sr-only">Strategy </label>
+    <select class = "form-control" id = "strategy" name="strategy" [(ngModel)]="flag" style="margin-bottom: 7%;"required>
+      <option *ngFor="let strategy of strategies" [ngValue]="strategy" class="dropdown-item">{{strategy}}</option>
+    </select>
+    <label for="strategy_name" class="sr-only">Strategy Name</label>
+    <input class="form-control" id="strategy_name" name="strategy_name"[(ngModel)]="strategy.name"  placeholder="Strategy Name" required> <br>
+    <label for="entry_position" class="sr-only">Entry Size</label>
+    <input class="form-control" id="entry_position"  name="entry_position"[(ngModel)]="strategy.entrySize" placeholder="Entry Size (# of shares)" required> <br>
+    <label for="exit_position" class="sr-only">Exit Position</label>
+    <input class="form-control" id="exit_position"  name="exit_position"[(ngModel)]="strategy.close" placeholder="Exit Position (%)" required> <br>
+    <label for="stock" class="sr-only">Ticker</label>
+    <input class="form-control" id="stock"  name="stock"[(ngModel)]="strategy.ticker" placeholder="Ticker" required> <br>
+    <label for="longTime" class="sr-only">Long</label>
+    <input class="form-control" id="longTime" *ngIf= "flag == 'Two Moving Averages'" name="longTime" [(ngModel)]="twoMovingAverages.longTime" placeholder="Long (Seconds)" required>
+    <label for="period" class="sr-only">Long</label>
+    <input class="form-control" id="period" *ngIf= "flag == 'Bollinger Bands'" name="period" [(ngModel)]="bollingerBands.period" placeholder="Period (Seconds)"  required><br>
+    <label for="shortTime" class="sr-only">Long</label>
+    <input class="form-control" id="shortTime" *ngIf= "flag == 'Two Moving Averages'" name="shortTime" [(ngModel)]="twoMovingAverages.shortTime" placeholder="Short (Seconds)" required>
+    <label for="stdev" class="sr-only">Long</label>
+    <input class="form-control" id="stdev" *ngIf= "flag == 'Bollinger Bands'" name="stdev" [(ngModel)]="bollingerBands.stdDev" placeholder="Standard Deviation" required>
+    <button class="btn btn-outline-primary" type="submit" name="create_strategy">Create Strategy</button>
+  </form>
+</div>
+
+
+
+
+

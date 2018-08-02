@@ -1,0 +1,22 @@
+<div style="overflow-y: scroll; max-height:200px;">
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Buy</th>
+    <th>Price</th>
+    <th>Size</th>
+    <th>Time</th>
+    <th>State</th>
+  </tr>
+  </thead>
+  <tr *ngFor="let trade of trades;">
+    <td>{{trade.id}}</td>
+    <td>{{trade.buyTrade}}</td>
+    <td>{{trade.price}}</td>
+    <td>{{trade.tradeSize}}</td>
+    <td>{{trade.timeTransacted}}</td>
+    <td>{{trade.transactionState}}</td>
+  </tr>
+</table>
+</div>
