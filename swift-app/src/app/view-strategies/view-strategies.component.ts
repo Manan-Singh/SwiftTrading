@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StrategyService} from '../strategy.service';
 import {AlertService} from '../alert.service';
 
@@ -8,11 +8,12 @@ import {AlertService} from '../alert.service';
   styleUrls: ['./view-strategies.component.css']
 })
 export class ViewStrategiesComponent implements OnInit {
-
+  @Input() newStrategyToView: any;
   allStrategies: any;
   filteredStrategies: any;
   temp: any = 'All';
   filterHeaders = [ 'All' , 'Active' , 'Inactive' , 'Two Moving Average' , 'Bollinger Bands' ];
+  currentFilter: any;
 
 
   constructor(private strategyService: StrategyService, private alertService: AlertService) {
@@ -24,7 +25,6 @@ export class ViewStrategiesComponent implements OnInit {
     this.strategyService.getAllStrategies()
       .subscribe(
       data => {
-        console.log(data);
         this.allStrategies = data;
         this.filteredStrategies = data;
       },
@@ -50,12 +50,12 @@ export class ViewStrategiesComponent implements OnInit {
   }
 
   filterStrategies(filter: string){
+    this.currentFilter = filter;
     this.filteredStrategies = [ ];
     if(filter === 'Active'){
       for(let strategy of this.allStrategies){
-        if(strategy.isActive === true){ console.log(strategy); this.filteredStrategies.push(strategy);}
+        if(strategy.isActive === true){ this.filteredStrategies.push(strategy);}
       }
-      //this.filteredStrategies = this.strategyService.getActiveStrategies();
     }
     else if(filter === 'Inactive'){
       for(let strategy of this.allStrategies){
@@ -74,7 +74,6 @@ export class ViewStrategiesComponent implements OnInit {
     }
     else if(filter === 'Bollinger Bands'){
       for(let strategy of this.allStrategies){
-        console.log(strategy.stdDev)
         if('stdDev' in strategy){
           this.filteredStrategies.push(strategy);
         }
@@ -83,12 +82,7 @@ export class ViewStrategiesComponent implements OnInit {
     return this.filteredStrategies;
   }
 
-  strategyDetails(strategy:any){
-    console.log('Retrieving strategy details');
-  }
-
   pauseStrategy(strategy:any){
-    console.log('Pausing strategy');
     this.strategyService.pauseStrategy(strategy.id)
       .subscribe(
         data => {
@@ -109,6 +103,19 @@ export class ViewStrategiesComponent implements OnInit {
 
         }
       )
+  }
+
+  addNewStrategy(strategy:any){
+    this.allStrategies.push(strategy);
+    if(this.currentFilter === 'Active' || this.currentFilter === 'All'){
+      this.filteredStrategies.push(strategy);
+    }
+    else if(this.currentFilter === 'Two Moving Average' && 'longTime' in strategy){
+      this.filteredStrategies.push(strategy);
+    }
+    else if(this.currentFilter === 'Bollinger Bands' && 'stdDev' in strategy){
+      this.filteredStrategies.push(strategy);
+    }
   }
 
 
