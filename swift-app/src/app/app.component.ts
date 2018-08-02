@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Swift';
+  newStrategy: any;
+  addingEvent(strategy: any){
+    this.newStrategy = strategy;
+  }
 }

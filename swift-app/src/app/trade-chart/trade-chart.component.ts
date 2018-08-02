@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {StrategyService} from '../strategy.service';
 import {UserServiceService} from '../user-service.service';
 import {Chart} from 'chart.js';
+
 
 @Component({
   selector: 'app-trade-chart',
@@ -17,7 +18,7 @@ export class TradeChartComponent implements OnInit {
   trades: any;
   realPnl = 0;
   potentialPnl = 0;
-
+  @Output() eventClicked = new EventEmitter();
   constructor(private strategyService: StrategyService, private userService: UserServiceService) {
     this.trades = [ ];
     this.strategy = this.userService.getStrategy();
@@ -113,6 +114,7 @@ export class TradeChartComponent implements OnInit {
             }
           });
           this.calculatePnl();
+          this.eventClicked.emit(null);
         },
         error =>{
           console.log('Error retrieving trades by id in trade chart');

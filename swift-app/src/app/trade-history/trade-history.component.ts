@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StrategyService} from '../strategy.service';
 import {UserServiceService} from '../user-service.service';
 
@@ -18,6 +18,19 @@ export class TradeHistoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('trade history');
+    this.strategyService.getTradesById(this.strategyId)
+      .subscribe(
+        data => {
+          this.trades = data;
+        },
+        error => {
+          console.log('Error retrieving trades by Id');
+        }
+      );
+  }
+
+  refreshTrades(){
     console.log('trade history');
     this.strategyService.getTradesById(this.strategyId)
       .subscribe(

@@ -22,8 +22,8 @@
 
 <section>
   <alert></alert>
-  <app-view-strategies></app-view-strategies>
-  <app-strategy-form></app-strategy-form>
+  <app-view-strategies #viewStratgies></app-view-strategies>
+  <app-strategy-form (addEvent)="viewStratgies.addNewStrategy($event)"></app-strategy-form>
 </section>
 <router-outlet></router-outlet>
 

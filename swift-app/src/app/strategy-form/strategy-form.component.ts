@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Output, OnInit, EventEmitter} from '@angular/core';
 import {TwoMovingAverages} from '../models/TwoMovingAverages';
 import {Strategy} from '../models/Strategy';
 import {BollingerBands} from '../models/BollingerBands';
@@ -17,13 +17,13 @@ export class StrategyFormComponent implements OnInit {
   bollingerBands = new BollingerBands();
   strategies = ['Two Moving Averages', 'Bollinger Bands'];
   flag: any = 'Strategy';
+  @Output() addEvent = new EventEmitter<any>();
 
   constructor(private strategyService: StrategyService, private userService: UserServiceService, private alertService: AlertService) { }
   ngOnInit() {
   }
 
   newStrategy() {
-    console.log('Submitting a new strategy');
     if(this.flag === 'Two Moving Averages'){
       this.twoMovingAverages.name = this.strategy.name;
       this.twoMovingAverages.close = this.strategy.close;
@@ -31,7 +31,7 @@ export class StrategyFormComponent implements OnInit {
       this.twoMovingAverages.entrySize = this.strategy.entrySize;
       this.strategyService.createTwoMovingAverageStrategy(this.twoMovingAverages).subscribe(
         data => {
-          location.reload();
+          this.addEvent.emit(data);
           this.alertService.success('Successfully created a new two moving average strategy!');
         },
         error => {
@@ -46,13 +46,12 @@ export class StrategyFormComponent implements OnInit {
       this.bollingerBands.entrySize = this.strategy.entrySize;
       this.strategyService.createBollingerBandsStrategy(this.bollingerBands).subscribe(
         data => {
-          location.reload();
+          this.addEvent.emit(data);
           this.alertService.success('Successfully created a new bollinger bands strategy!');
           },
         error => {
           this.alertService.error('Error creating new strategy');
           console.log('Error creating new strategy'); });
     }
-
   }
 }
