@@ -15,8 +15,8 @@ export class TradeChartComponent implements OnInit {
   strategy: any;
   strategyId: string;
   trades: any;
-  realPnl: number;
-  potentialPnl: number;
+  realPnl = 0;
+  potentialPnl = 0;
 
   constructor(private strategyService: StrategyService, private userService: UserServiceService) {
     this.trades = [ ];
@@ -135,6 +135,8 @@ export class TradeChartComponent implements OnInit {
              else{this.realPnl -= (Number(data[res].tradeSize) * Number(data[res].price));}
            }
           }
+          this.potentialPnl = Number(this.potentialPnl.toFixed(2));
+          this.realPnl = Number(this.realPnl.toFixed(2));
         },
         error =>{
           console.log('Error calculating pnl');
