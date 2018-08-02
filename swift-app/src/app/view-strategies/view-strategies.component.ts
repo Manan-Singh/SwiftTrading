@@ -97,6 +97,7 @@ export class ViewStrategiesComponent implements OnInit {
               data2 => {
                 this.allStrategies = data2;
                 this.filteredStrategies = data2;
+                this.temp = 'All';
               },
               error => {
                 console.log('Error retrieving all strategies');
