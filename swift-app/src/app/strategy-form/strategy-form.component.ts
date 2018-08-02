@@ -28,6 +28,7 @@ export class StrategyFormComponent implements OnInit {
       this.twoMovingAverages.name = this.strategy.name;
       this.twoMovingAverages.close = this.strategy.close;
       this.twoMovingAverages.ticker = this.strategy.ticker;
+      this.twoMovingAverages.entrySize = this.strategy.entrySize;
       this.strategyService.createTwoMovingAverageStrategy(this.twoMovingAverages).subscribe(
         data => {
           location.reload();
@@ -42,6 +43,7 @@ export class StrategyFormComponent implements OnInit {
       this.bollingerBands.name = this.strategy.name;
       this.bollingerBands.close= this.strategy.close;
       this.bollingerBands.ticker = this.strategy.ticker;
+      this.bollingerBands.entrySize = this.strategy.entrySize;
       this.strategyService.createBollingerBandsStrategy(this.bollingerBands).subscribe(
         data => {
           location.reload();

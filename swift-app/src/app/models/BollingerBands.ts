@@ -4,4 +4,5 @@ export class BollingerBands{
   ticker: string;
   period: string;
   stdDev: string;
+  entrySize: string;
 }

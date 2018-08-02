@@ -4,5 +4,6 @@ export class TwoMovingAverages{
   ticker: string;
   longTime: string;
   shortTime: string;
+  entrySize: string;
 }
 

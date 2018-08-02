@@ -25,6 +25,7 @@ export class ViewStrategiesComponent implements OnInit {
     this.strategyService.getAllStrategies()
       .subscribe(
       data => {
+        console.log(data);
         this.allStrategies = data;
         this.filteredStrategies = data;
       },
@@ -88,7 +89,27 @@ export class ViewStrategiesComponent implements OnInit {
   }
 
   pauseStrategy(strategy:any){
-    console.log("Pausing strategy");
+    console.log('Pausing strategy');
+    this.strategyService.pauseStrategy(strategy.id)
+      .subscribe(
+        data => {
+          this.strategyService.getAllStrategies()
+            .subscribe(
+              data2 => {
+                this.allStrategies = data2;
+                this.filteredStrategies = data2;
+              },
+              error => {
+                console.log('Error retrieving all strategies');
+              }
+            );
+
+        },
+        error =>{
+
+        }
+      )
   }
+
 
 }

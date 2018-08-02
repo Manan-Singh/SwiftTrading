@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
 })
 export class StrategyService {
   private baseURL = 'http://localhost:8081/api';
+  public emptyObj = {};
   constructor(private http: HttpClient) { }
 
   createTwoMovingAverageStrategy(twoMovingAverages: TwoMovingAverages ) {
@@ -39,5 +40,10 @@ export class StrategyService {
   getTradesById(strategyId: string){
     console.log('Getting trades by Id');
     return this.http.get(this.baseURL + '/strategies/' + strategyId + '/trades');
+  }
+
+  pauseStrategy(strategyId: string){
+    console.log('Pausing Strategy');
+    return this.http.put(this.baseURL + '/strategies/' + strategyId + '/toggleIsActive', this.emptyObj);
   }
 }

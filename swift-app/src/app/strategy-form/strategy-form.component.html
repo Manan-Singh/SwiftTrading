@@ -3,11 +3,13 @@
   <form (ngSubmit)="f.form.valid && newStrategy()" #f="ngForm">
     <h2>New Strategy</h2>
     <label for="strategy" class="sr-only">Strategy </label>
-    <select class = "custom-select" id = "strategy" name="strategy" [(ngModel)]="flag" required>
+    <select class = "form-control" id = "strategy" name="strategy" [(ngModel)]="flag" style="margin-bottom: 7%;"required>
       <option *ngFor="let strategy of strategies" [ngValue]="strategy" class="dropdown-item">{{strategy}}</option>
-    </select><br><br>
+    </select>
     <label for="strategy_name" class="sr-only">Strategy Name</label>
     <input class="form-control" id="strategy_name" name="strategy_name"[(ngModel)]="strategy.name"  placeholder="Strategy Name" required> <br>
+    <label for="entry_position" class="sr-only">Entry Size</label>
+    <input class="form-control" id="entry_position"  name="entry_position"[(ngModel)]="strategy.entrySize" placeholder="Entry Size" required> <br>
     <label for="exit_position" class="sr-only">Exit Position</label>
     <input class="form-control" id="exit_position"  name="exit_position"[(ngModel)]="strategy.close" placeholder="Exit Position" required> <br>
     <label for="stock" class="sr-only">Ticker</label>
