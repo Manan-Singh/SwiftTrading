@@ -3,30 +3,30 @@
   <select class="custom-select" [(ngModel)]="temp" (ngModelChange)="filterStrategies(temp)">
     <option class="dropdown-item" *ngFor = "let filter of filterHeaders" [value]="filter">{{filter}}</option>
   </select>
-  <table class="table table-hover">
-  <thead>
-    <tr style="position:relative; width:100%;">
-      <th>ID</th>
-      <th>Name</th>
-      <th>Ticker</th>
-      <th>Entry Size</th>
-      <th>Exit Position</th>
-      <th>Active</th>
-    </tr>
-  </thead>
-    <tbody style="overflow:auto; width:100%; max-height:300px; overflow-y:scroll;">
-  <tr *ngFor="let strat of filteredStrategies;">
-    <td>{{strat.id}}</td>
-    <td>{{strat.name}}</td>
-    <td>{{strat.ticker}}</td>
-    <td>{{strat.entrySize}}</td>
-    <td>{{strat.close}}</td>
-    <td>{{strat.isActive}}</td>
-    <app-modal #modal></app-modal>
-    <td><button class="btn btn-outline-info" (click)="modal.open(strat)">More details</button></td>
-    <td><button class= "btn btn-outline-warning" (click)="pauseStrategy(strat)">On/Off</button></td>
-    <td><button class= "btn btn-outline-danger" (click)="deleteStrategy(strat)">Delete</button></td>
-  </tr>
+  <table class="table table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Ticker</th>
+        <th>Entry Size</th>
+        <th>Exit Position</th>
+        <th>Active</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let strat of filteredStrategies;">
+        <td>{{strat.id}}</td>
+        <td>{{strat.name}}</td>
+        <td>{{strat.ticker}}</td>
+        <td>{{strat.entrySize}}</td>
+        <td>{{strat.close}}</td>
+        <td>{{strat.isActive}}</td>
+        <app-modal #modal></app-modal>
+        <td><button class="btn btn-outline-info" (click)="modal.open(strat)">More details</button></td>
+        <td><button class= "btn btn-outline-warning" (click)="pauseStrategy(strat)">On/Off</button></td>
+        <td><button class= "btn btn-outline-danger" (click)="deleteStrategy(strat)">Delete</button></td>
+      </tr>
     </tbody>
 </table>
 </div>
