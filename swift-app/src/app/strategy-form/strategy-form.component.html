@@ -2,6 +2,7 @@
 <div class="form-group"  style="float:left; width:30%; align:center">
   <form (ngSubmit)="f.form.valid && newStrategy()" #f="ngForm">
     <h2>New Strategy</h2>
+    Choose strategy type:
     <label for="strategy" class="sr-only">Strategy </label>
     <select class = "form-control" id = "strategy" name="strategy" [(ngModel)]="flag" style="margin-bottom: 7%;"required>
       <option *ngFor="let strategy of strategies" [ngValue]="strategy" class="dropdown-item">{{strategy}}</option>
