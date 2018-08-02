@@ -11,7 +11,6 @@ import {UserServiceService} from '../user-service.service';
       </button>
     </div>
     <div class="modal-body">
-      <p>Strategy Performance: </p>
       <app-trade-chart></app-trade-chart>
       <app-trade-history></app-trade-history>
     </div>

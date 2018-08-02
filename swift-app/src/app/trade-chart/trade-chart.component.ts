@@ -15,6 +15,8 @@ export class TradeChartComponent implements OnInit {
   strategy: any;
   strategyId: string;
   trades: any;
+  realPnl: any;
+  potentialPnl: any;
 
   constructor(private strategyService: StrategyService, private userService: UserServiceService) {
     this.trades = [ ];
@@ -62,6 +64,7 @@ export class TradeChartComponent implements OnInit {
               }
             }
           });
+          this.calculatePnl();
         },
         error =>{
           console.log('Error retrieving trades by id in trade chart');
@@ -109,11 +112,34 @@ export class TradeChartComponent implements OnInit {
               }
             }
           });
+          this.calculatePnl();
         },
         error =>{
           console.log('Error retrieving trades by id in trade chart');
         }
       );
+  }
+
+  calculatePnl(){
+    this.strategyService.getTradesById(this.strategyId)
+      .subscribe(
+        data =>{
+          this.realPnl = 0;
+          this.potentialPnl = 0;
+          for(let res in data){
+            if(data[res].buyTrade === false){this.potentialPnl += data[res].price;}
+            else{this.potentialPnl -= data[res].price;}
+            if(data[res].transactionState !== 'REJECTED'){
+             if(data[res].buyTrade === false){this.realPnl += data[res].price;}
+             else{this.realPnl -= data[res].price;}
+           }
+          }
+        },
+        error =>{
+          console.log('Error calculating pnl');
+        }
+      )
+
   }
 
 }
