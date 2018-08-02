@@ -1,8 +1,10 @@
 package app.contexts;
 
 import app.entities.Order;
+import app.entities.StockPriceRecord;
 import app.entities.strategies.Strategy;
-import app.services.StockService;
+import app.services.StockPriceRecordService;
+import app.services.StrategyService;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.Callable;
@@ -13,29 +15,46 @@ public abstract class CallableStrategyContext {
 
     public abstract class CallableStrategy implements Callable<Void> {
 
-        protected StockService stockService;
+        protected static final int DEFAULT_ENTRY = 50;
 
-        protected StockService getStockService() {
+        protected StockPriceRecordService stockService;
+        protected StrategyService strategyService;
+
+        protected StockPriceRecordService getStockService() {
             return stockService;
         }
 
-        protected void setStockService(StockService stockService) {
+        protected void setStockService(StockPriceRecordService stockService) {
             this.stockService = stockService;
         }
 
-        protected Order getOrder(boolean buyTrade, double price, Strategy s) {
+        protected StrategyService getStrategyService() {
+            return strategyService;
+        }
+
+        protected void setStrategyService(StrategyService strategyService) {
+            this.strategyService = strategyService;
+        }
+
+        protected Order getOrder(boolean buyTrade, double price, int size, Strategy s) {
             Order order = new Order();
             order.setBuyTrade(buyTrade);
-            if (buyTrade) {
-                order.setTradeSize(s.getEntryPosition());
-            } else {
-                order.setTradeSize(s.getClosePosition());
-            }
+            order.setTradeSize(size);
             order.setPrice(price);
             order.setId(s.getId());
-            order.setStock(s.getStock().getTicker());
+            order.setStock(s.getTicker());
             order.setTimeTransacted(LocalDateTime.now().toString());
             return order;
+        }
+
+
+        // checks if the pnl violates the exit condition
+        protected boolean shouldExit(double startValue, double exitPercentage, double pnl) {
+            double margin = startValue * exitPercentage;
+            if (pnl < startValue - margin || pnl > startValue + margin) {
+                return true;
+            }
+            return false;
         }
     }
 }

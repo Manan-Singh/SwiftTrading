@@ -31,12 +31,16 @@ public class Strategy implements Serializable {
     @JsonProperty("close")
     private Integer closePercentage;
 
+    @Column(name = "EntrySize")
+    @JsonProperty("entrySize")
+    private Integer entrySize;
+
     @Column(name = "Ticker")
     @JsonProperty("ticker")
     private String ticker;
 
     @Column(name = "ProfitValue")
-    private Integer profitValue;
+    private Double profitValue;
 
     @OneToMany(mappedBy = "strategy", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -77,15 +81,27 @@ public class Strategy implements Serializable {
         this.closePercentage = closePercentage;
     }
 
+    public Integer getEntrySize() {
+        return entrySize;
+    }
+
+    public void setEntrySize(Integer entrySize) {
+        this.entrySize = entrySize;
+    }
+
     public String getName() { return name; }
 
     public void setName(String name) { this.name = name; }
 
-    public Integer getProfitValue() { return profitValue; }
+    public Double getProfitValue() { return profitValue; }
 
-    public void setProfitValue(Integer profitValue) { this.profitValue = profitValue; }
+    public void setProfitValue(Double profitValue) { this.profitValue = profitValue; }
 
     public void setTrades(List<Trade> trades) { this.trades = trades; }
+
+    public String getTicker() {
+        return ticker;
+    }
 
     public void setTicker(String ticker) {
         this.ticker = ticker;

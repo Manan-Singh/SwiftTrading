@@ -24,6 +24,7 @@ CREATE TABLE Strategies (
     IsActive BOOLEAN DEFAULT TRUE,
     Name VARCHAR(50) NOT NULL,
     Close INTEGER NOT NULL,
+    EntrySize INTEGER NOT NULL DEFAULT 50,
     Ticker VARCHAR(10) NOT NULL,
     ProfitValue FLOAT,
     PRIMARY KEY (Id)

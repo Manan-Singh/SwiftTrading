@@ -10,15 +10,28 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "Id")
 public class TwoMovingAveragesStrategy extends Strategy {
 
+    public TwoMovingAveragesStrategy() {
+    }
+
     @Column(name = "LongTime")
-    private Integer longTimeMillis;
+    private Integer longTime;
 
     @Column(name = "ShortTime")
-    private Integer shortTimeMills;
+    private Integer shortTime;
 
-    @Column(name = "LastLongAvg")
-    private Double lastLongAvg;
+    public Integer getLongTime() {
+        return longTime;
+    }
 
-    @Column(name = "LastShortAvg")
-    private Double lastShortAvg;
+    public void setLongTime(Integer longTime) {
+        this.longTime = longTime;
+    }
+
+    public Integer getShortTime() {
+        return shortTime;
+    }
+
+    public void setShortTime(Integer shortTime) {
+        this.shortTime = shortTime;
+    }
 }

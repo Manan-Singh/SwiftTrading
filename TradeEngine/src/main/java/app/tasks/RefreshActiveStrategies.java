@@ -2,7 +2,6 @@ package app.tasks;
 
 import app.entities.strategies.Strategy;
 import app.services.CallableStrategyContextMapperService;
-import app.services.StockService;
 import app.services.StrategyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,9 +22,6 @@ public class RefreshActiveStrategies {
 
     private static final Logger logger = LoggerFactory.getLogger(RefreshActiveStrategies.class);
     private Map<Strategy, Future<Void>> activeStrategies = new HashMap<>();
-
-    @Autowired
-    private StockService stockService;
 
     @Autowired
     private StrategyService strategyService;

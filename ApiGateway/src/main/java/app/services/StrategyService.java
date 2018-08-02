@@ -21,11 +21,13 @@ public interface StrategyService {
 
     Strategy createStrategy(Strategy strategy);
 
-    BollingerBandsStrategy createBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy);
+    BollingerBandsStrategy createOrSaveBollingerStrategy(BollingerBandsStrategy bollingerBandsStrategy);
 
-    TwoMovingAveragesStrategy createMovingAveragesStrategy(TwoMovingAveragesStrategy twoMovingAveragesStrategy);
+    TwoMovingAveragesStrategy createOrSaveMovingAveragesStrategy(TwoMovingAveragesStrategy twoMovingAveragesStrategy);
 
-    Strategy updateStrategy(Strategy strategy);
+    Strategy updateStrategy(Integer id, Strategy strategy);
+
+    Strategy toggleIsActiveField(Integer id);
 
     void deleteStrategyById(Integer id);
 
