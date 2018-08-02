@@ -11,8 +11,8 @@ import {UserServiceService} from '../user-service.service';
       </button>
     </div>
     <div class="modal-body">
-      <app-trade-chart></app-trade-chart>
-      <app-trade-history></app-trade-history>
+      <app-trade-chart (eventClicked)="trade.refreshTrades()"></app-trade-chart>
+      <app-trade-history #trade ></app-trade-history>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
@@ -23,6 +23,7 @@ export class ModalContent implements OnInit{
   constructor(public activeModal: NgbActiveModal ) { }
 
   ngOnInit() { }
+
 }
 
 
