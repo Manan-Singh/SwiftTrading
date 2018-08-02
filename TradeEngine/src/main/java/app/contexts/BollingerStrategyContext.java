@@ -53,14 +53,13 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
         public Void call() throws Exception {
 
             double exitPercentage = strategy.getClosePercentage();
+            int tradeSize = strategy.getEntrySize();
             double startValue = 0;
             // help to ensure that transactions occur in buy/sell pairs
             boolean mustBuy = true, mustSell = true;
             boolean hasToClose = false;
             double pairPnl = 0;
             double runningPnl = 0;
-            //TODO: make this multiplier configurable?
-            final double DEFAULT_MULTIPLIER = 2.0;
 
             while (!Thread.currentThread().isInterrupted()) {
                 Double movingAvg = stockService.getAverageStockPrice(strategy.getPeriod(), strategy.getTicker());
@@ -78,15 +77,15 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
 
                 Order order = null;
 
-                if ( currentPrice <= (movingAvg - (movingStdDev * DEFAULT_MULTIPLIER)) && mustBuy ) {
+                if ( currentPrice <= (movingAvg - (movingStdDev * strategy.getStdDev())) && mustBuy ) {
                     // should buy
-                    order = getOrder(true, currentPrice, DEFAULT_ENTRY, strategy);
+                    order = getOrder(true, currentPrice, tradeSize, strategy);
                     pairPnl -= currentPrice;
                     mustBuy = false;
                     mustSell = true;
-                } else if( currentPrice >= (movingAvg + (movingStdDev * DEFAULT_MULTIPLIER)) && mustSell) {
+                } else if( currentPrice >= (movingAvg + (movingStdDev * strategy.getStdDev())) && mustSell) {
                     // should sell
-                    order = getOrder(false, currentPrice, DEFAULT_ENTRY, strategy);
+                    order = getOrder(false, currentPrice, tradeSize, strategy);
                     pairPnl += currentPrice;
                     mustSell = false;
                     mustBuy = true;
