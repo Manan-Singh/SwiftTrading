@@ -18,7 +18,7 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 [Insert overall architecture diagram here]
 ### Database Diagram 
 [Insert database diagram here]
-###Deployment workflow diagram
+### Deployment workflow diagram
 [insert deployment workflow diagram here]
 
 ## General Setup Guide
