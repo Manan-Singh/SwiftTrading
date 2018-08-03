@@ -8,7 +8,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class StrategyService {
-  private baseURL = 'http://localhost:8081/api';
+  private baseURL = '/api';
   public emptyObj = {};
   constructor(private http: HttpClient) { }
 
