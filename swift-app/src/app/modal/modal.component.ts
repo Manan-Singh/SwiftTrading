@@ -6,6 +6,7 @@ import {UserServiceService} from '../user-service.service';
   selector: 'ngbd-modal-content',
   template: `    
     <div class="modal-header">
+      <h4 class="modal-title">{{strategy.name}}</h4><br />
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -20,9 +21,13 @@ import {UserServiceService} from '../user-service.service';
   `
 })
 export class ModalContent implements OnInit{
-  constructor(public activeModal: NgbActiveModal ) { }
+  strategy: any;
 
-  ngOnInit() { }
+  constructor(public activeModal: NgbActiveModal, private userService: UserServiceService ) { }
+
+  ngOnInit() {
+    this.strategy = this.userService.getStrategy();
+  }
 
 }
 
@@ -40,6 +45,7 @@ export class ModalComponent implements OnInit {
   constructor(private modalService: NgbModal, private userService: UserServiceService) { }
 
   ngOnInit() {
+
   }
 
   open(strategy:any){
