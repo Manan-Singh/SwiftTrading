@@ -26,9 +26,24 @@ Jessica Zhang: Jessica is our front end engineer of our team. She created the wi
 [Directory Structure]
 
 ## Our steps
-1. Prior to coding, we designed the 
+1. Prior to coding, we designed the overall architecture of the diagram. We figured out what the best arhictecture should be to create a solution to the problem. We also interviewed the customer to confirm what the customer would want in our UI. 
+2. We set up the overall project so we can start developing. We created an initial database diagram, set up a live feed to interact with our back end and integrated our front end framework with the rest API. 
+3. We set up different roles and tasks and started developing our project. A lot of communication and team work was done to ensure that we knew what everyone was doing at all times and helped when there were problems.  
+4. Once a prototype was done, a customer interview was set up in order to ensure that the customer liked what he/she was seeing. 
+5. When our development project was fully working, we refactored our code and created some unit tests. 
+6. We prepared to ship our project from development to production. 
 
-## What we learnt/What we would do differently
-
+## Retrospective
+During this project, there were things that went well/wrong. 
+###Some of the things that went well:
+- Thought of overall architecture prior to initial development
+- team communication was strong
+- rest API and database was finished quickly
+- very deliverable focused
+- Good usage of git 
+###Some of the things that went wrong:
+- Had difficulties shipping our project from development to production due to technical difficulties
+- Spent too much time on low priority tasks
+- Had difficulties with angular components interacting with one another 
 ## References
 [Insert wireframes here]
