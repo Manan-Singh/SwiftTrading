@@ -23,8 +23,9 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 
 ## General Setup Guide
 ### Running the app in development
-[How to run app]
+[How to run the app]
 ### Running the app in production
+[How to run the app]
 
 ## Directory Structure
 [Directory Structure]
