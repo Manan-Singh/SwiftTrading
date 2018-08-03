@@ -17,7 +17,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      DBHOST: ${DBHOST}
+      DBHOST: swift-mysql
       DBNAME: ${DBNAME}
       USERNAME: ${USERNAME}
       PASSWORD: ${PASSWORD}
