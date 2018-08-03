@@ -28,12 +28,32 @@ export class TradeChartComponent implements OnInit {
     this.strategyService.getTradesById(this.strategyId)
       .subscribe(
         data => {
-          //for loop
           let dates = [];
-          let prices = [];
+          let profit = [];
+          let i = 0;
           for(let res in data){
-            dates.push(data[res].timeTransacted);
-            prices.push(data[res].price);
+            i+=1;
+          }
+          if(i>=2){
+            dates = [];
+            let profitTmp = 0;
+            if(data[0].buyTrade === false) {profitTmp += data[0].price * data[0].tradeSize;}
+            else{profitTmp -= data[0].price * data[0].tradeSize;}
+            for(var res = 1; res < i; res++){
+              if(data[res].transactionState !== 'REJECTED'){
+                if(data[res].buyTrade === false)
+                {
+                  profit.push(profitTmp + (data[res].price * data[res].tradeSize));
+                  profitTmp = profitTmp + (data[res].price * data[res].tradeSize);
+                  dates.push(data[res].timeTransacted);
+                }
+                else if(data[res].buyTrade === true){
+                  profit.push(profitTmp - (data[res].price * data[res].tradeSize));
+                  profitTmp = profitTmp - (data[res].price * data[res].tradeSize);
+                  dates.push(data[res].timeTransacted);
+                }
+              }
+            }
           }
           for(let res in dates){
             const splitDates = dates[res].split('T');
@@ -45,8 +65,8 @@ export class TradeChartComponent implements OnInit {
               labels: dates,
               datasets: [
                 {
-                  data: prices,
-                  borderColor: '#3cba9f',
+                  data: profit,
+                  borderColor: '#00BFFF',
                   fill: false
                 }
               ]
@@ -66,6 +86,7 @@ export class TradeChartComponent implements OnInit {
             }
           });
           this.calculatePnl();
+          this.eventClicked.emit(null);
         },
         error =>{
           console.log('Error retrieving trades by id in trade chart');
@@ -76,12 +97,32 @@ export class TradeChartComponent implements OnInit {
     this.strategyService.getTradesById(this.strategyId)
       .subscribe(
         data => {
-          //for loop
           let dates = [];
-          let prices = [];
+          let profit = [];
+          let i = 0;
           for(let res in data){
-            dates.push(data[res].timeTransacted);
-            prices.push(data[res].price);
+            i+=1;
+          }
+          if(i>=2){
+            dates = [];
+            let profitTmp = 0;
+            if(data[0].buyTrade === false) {profitTmp += data[0].price * data[0].tradeSize;}
+            else{profitTmp -= data[0].price * data[0].tradeSize;}
+            for(var res = 1; res < i; res++){
+              if(data[res].transactionState !== 'REJECTED'){
+                if(data[res].buyTrade === false)
+                {
+                  profit.push(profitTmp + (data[res].price * data[res].tradeSize));
+                  profitTmp = profitTmp + (data[res].price * data[res].tradeSize);
+                  dates.push(data[res].timeTransacted);
+                }
+                else if(data[res].buyTrade === true){
+                  profit.push(profitTmp - (data[res].price * data[res].tradeSize));
+                  profitTmp = profitTmp - (data[res].price * data[res].tradeSize);
+                  dates.push(data[res].timeTransacted);
+                }
+              }
+            }
           }
           for(let res in dates){
             const splitDates = dates[res].split('T');
@@ -93,8 +134,8 @@ export class TradeChartComponent implements OnInit {
               labels: dates,
               datasets: [
                 {
-                  data: prices,
-                  borderColor: '#3cba9f',
+                  data: profit,
+                  borderColor: '#00BFFF',
                   fill: false
                 }
               ]
@@ -126,7 +167,6 @@ export class TradeChartComponent implements OnInit {
     this.strategyService.getTradesById(this.strategyId)
       .subscribe(
         data =>{
-          console.log(data);
           this.realPnl = 0;
           this.potentialPnl = 0;
           for(let res in data){
