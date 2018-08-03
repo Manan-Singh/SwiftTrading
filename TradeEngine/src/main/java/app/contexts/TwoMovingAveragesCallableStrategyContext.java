@@ -107,6 +107,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
 
                 // send the order to the OrderBroker
                 if (order != null) {
+                    System.out.println("Sending an order");
                     String xml = xmlMapper.writeValueAsString(order);
                     try {
                         jmsTemplate.send(queue, (Session s) -> {

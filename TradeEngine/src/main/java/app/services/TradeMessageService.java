@@ -19,6 +19,7 @@ public class TradeMessageService {
 
     @JmsListener(destination = "OrderBroker_Reply")
     public void listenAndHandleTrades(String message) {
+        logger.info("Receiving trade");
         TradeDTO tradeDTO = getTradeDTO(message);
         if (tradeDTO != null) {
             tradeService.saveTrade(tradeDTO.isBuyTrade(), tradeDTO.getId(), tradeDTO.getPrice(),
