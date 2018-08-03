@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  swift_mysql:
+  swift-mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: ${PASSWORD}
@@ -10,13 +10,14 @@ services:
       MYSQL_PASSWORD: ${PASSWORD}
     ports:
       - 3306:3306
-  swift_test_app:
-    image: swift_test_app
+  swift-rest-ui:
+    image: dockerreg.training.local:5000/swift-rest-ui
     depends_on:
-      - swift_mysql
+      - swift-mysql
     ports:
       - 8080:8080
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://${DBHOST}:3306/${DBNAME}?useSSL=false
-      DATABASE_USER: ${USERNAME}
-      DATABASE_PASSWORD: ${PASSWORD}
+      DBHOST: ${DBHOST}
+      DBNAME: ${DBNAME}
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
