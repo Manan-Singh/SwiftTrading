@@ -38,15 +38,16 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 
 ## Retrospective
 During this project, there were things that went well/wrong. 
-###Some of the things that went well:
+### Some of the things that went well:
 - Thought of overall architecture prior to initial development
 - team communication was strong
 - rest API and database was finished quickly
 - very deliverable focused
 - Good usage of git 
-###Some of the things that went wrong:
+### Some of the things that went wrong:
 - Had difficulties shipping our project from development to production due to technical difficulties
 - Spent too much time on low priority tasks
 - Had difficulties with angular components interacting with one another 
 ## References
 [Insert wireframes here]
+[Outside material we thought was useful]
