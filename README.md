@@ -1,5 +1,5 @@
 # SwiftTrading
-### Chris Luo, Manan Singh, Jessica Zhang
+### Chris Luo | Manan Singh | Jessica Zhang
 
 ## What is SwiftTrading?
 
@@ -16,6 +16,8 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 ## Architecture
 ### Overall Architecture Diagram 
 [Insert overall architecture diagram here]
+The front end is developed using Angular 5. 
+The back end is developed in Java using Spring Boot and JMS.
 ### Database Diagram 
 [Insert database diagram here]
 ### Deployment workflow diagram
@@ -33,7 +35,7 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 ## Our steps
 1. Prior to coding, we designed the overall architecture of the diagram. We figured out what the best arhictecture should be to create a solution to the problem. We also interviewed the customer to confirm what the customer would want in our UI. 
 2. We set up the overall project so we can start developing. We created an initial database diagram, set up a live feed to interact with our back end and integrated our front end framework with the rest API. 
-3. We set up different roles and tasks and started developing our project. A lot of communication and team work was done to ensure that we knew what everyone was doing at all times and helped when there were problems.  
+3. We set up different roles and tasks and started developing our project. A lot of communication and team work was done to ensure that we knew what everyone was doing at all times and helped when there were problems. We communicated on how the UI should look like, how we should implement the strategies and what type of functions the rest API needs.  
 4. Once a prototype was done, a customer interview was set up in order to ensure that the customer liked what he/she was seeing. 
 5. When our development project was fully working, we refactored our code and created some unit tests. 
 6. We prepared to ship our project from development to production. 
