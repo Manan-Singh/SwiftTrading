@@ -2,7 +2,135 @@
 
 # DEPLOYMENT INFO
 
-## Test Deployment Documentation
+## Deployment Information
+
+### Environmental Variables
+
+NOTE: ensure that the spring boot application uses prod properties; this should be the default
+
+#### Variables in application.properties 
+
+The application.properties file uses DBHOST, DBNAME, USERNAME, and PASSWORD environment variables.
+
+```
+// some properties...
+
+spring.datasource.url = jdbc:mysql://${DBHOST}:3306/${DBNAME}?useSSL=false
+spring.datasource.username = ${USERNAME}
+spring.datasource.password = ${PASSWORD}
+
+// other properties...
+```
+
+#### Variables in docker-compose.yml
+
+If using docker-compose.yml file for testing deployment, set environment variables like below:
+
+```
+version: "3"
+
+services:
+  swift-mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DBNAME}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${PASSWORD}
+    ports:
+      - 3306:3306
+  swift-rest-ui:
+    image: dockerreg.training.local:5000/swift-rest-ui
+    depends_on:
+      - swift-mysql
+    ports:
+      - 8080:8080
+    environment:
+      DBHOST: ${DBHOST}
+      DBNAME: ${DBNAME}
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
+```
+
+The DBHOST, DBNAME, USERNAME, and PASSWORD variables are passed in under the "environment" field. 
+These will then be environment variables within the app container so that application.properties can pick them up.
+
+#### Variables when Running Docker Commands
+
+To use environment variables when running commands, use the `-e` flag.
+
+```
+docker run -p 8080:8080 -e DBHOST=$DBHOST -e DBNAME=$DBNAME -e USERNAME=$USERNAME -e PASSWORD=$PASSWORD --name swift-rest-ui --link $DBHOST:$DBNAME swift-rest-ui
+```
+
+### TeamCity
+
+#### Build Step 1: Angular
+
+Angular frontend setup. Install necessary files and move into static directory under ApiGateway.
+
+```
+#!/bin/bash
+
+npm --prefix swift-app install 
+npm --prefix swift-app run ng build --prod
+mkdir ApiGateway/src/main/resources/static
+mv swift-app/dist/* ApiGateway/src/main/resources/static/
+echo "setup complete"
+```
+
+#### Build Step 2: Maven
+
+Maven clean package.
+
+#### Build Step 3: Docker Build 
+
+Build and tag image.
+
+```
+#!/bin/bash
+
+docker build -t swift-rest-ui .
+```
+
+#### Build Step 4: Push to Docker Registry
+
+Tag and push image to docker registry. 
+
+```
+#!/bin/bash
+
+if docker tag swift-rest-ui dockerreg.training.local:5000/swift-rest-ui:%build.number%
+then
+  docker push dockerreg.training.local:5000/swift-rest-ui:%build.number%
+else
+  echo "FAILED to push the image to the Docker Registry" 1>&2
+fi
+```
+
+#### Build Step 5: Remove Failed Images
+
+Remove failed images.
+
+```
+#!/bin/bash
+
+docker rmi swift-rest-ui
+docker rmi dockerreg.training.local:5000/swift-rest-ui:%build.number%
+```
+
+### Deployment on AWS Box
+
+```
+// run containers in detached mode
+docker-compose up -d
+
+// turn off and remove containers
+docker-compose down
+```
+
+
+## -- OUTDATED BELOW --
 
 ### Test Deployment with Docker
 
