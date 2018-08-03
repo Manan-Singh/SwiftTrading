@@ -2,27 +2,49 @@ package app.contexts.callables;
 
 import app.entities.Order;
 import app.entities.strategies.TwoMovingAveragesStrategy;
+import app.services.StockPriceRecordService;
+import app.services.StrategyService;
+import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Message;
+import javax.jms.Queue;
 import javax.jms.Session;
 
+/**
+ * An implementation of the TwoMovingAverages Market strategy which waits for changes in the
+ * long and short average in order to decide when to buy and sell
+ */
 public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
 
 
     private TwoMovingAveragesStrategy strategy;
 
+    public TwoMovingAveragesCallableStrategy(StockPriceRecordService sprs, StrategyService ss,
+                                             JmsTemplate jmsTemplate, Queue queue, TwoMovingAveragesStrategy s) {
+        super(sprs, ss, jmsTemplate, queue);
+        this.strategy = s;
+    }
+
+    /**
+     *  This is the main method that runs the TwoMovingAverages strategy. If the short average crosses the long average
+     *  then the strategy buys. It sells if the opposite happens
+     * @return nothing
+     * @throws Exception
+     */
     @Override
     public Void call() throws Exception {
 
         // value of first buy/sell
         double startingValue = 0;
+        // the amount of stocks the strategy buys or sells
         int tradeSize = strategy.getEntrySize();
+        // represents the point at which a strategy should exit
         double exitPercent = strategy.getClosePercentage();
-        double check = 0;
         // running pnl since start of strategy
         double pnl = 0;
         // a constantly updated pnl of a buy and sell pair
         double pairPnl = 0;
+        // the previous long and short averages
         double prevLongAvg = 0, prevShortAvg = 0;
         // shows if the current iteration of the loop has to send a close order
         boolean hasToClose = false;
@@ -32,67 +54,46 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
             int longTime = strategy.getLongTime();
             int shortTime = strategy.getShortTime();
 
-            // find the average price of the records for both the long and short periods
+            // find the average price of the records for both the long and short periods, and get the current price
             Double longAvg = stockPriceService.getAverageStockPrice(longTime, strategy.getTicker());
             Double shortAvg = stockPriceService.getAverageStockPrice(shortTime, strategy.getTicker());
+            double currentPrice = stockPriceService.getMostRecentStockPrice(strategy.getTicker());
+
             if (longAvg == null || shortAvg == null) {
                 // in case the feed doesn't have any data on prices yet
                 Thread.sleep(longTime);
                 continue;
             }
-
-            double currentPrice = stockPriceService.getMostRecentStockPrice(strategy.getTicker());
             if (startingValue == 0) {
                 startingValue = currentPrice * tradeSize;
-                check = startingValue * exitPercent;
             }
 
             Order order = null;
-
-            if (prevLongAvg != 0 && prevShortAvg != 0) {
-
-                if ( (prevLongAvg - prevShortAvg) < 0 && (longAvg - shortAvg) > 0 ) {
-                    // you should sell
-                    order = getOrder(false, currentPrice, tradeSize, strategy);
-                    pairPnl += currentPrice * tradeSize;
-                } else if ( (prevLongAvg - prevShortAvg) > 0  && (longAvg - shortAvg) < 0) {
-                    // you should buy
-                    order = getOrder(true, currentPrice, tradeSize, strategy);
-                    pairPnl -= currentPrice * tradeSize;
-                }
+            if (shouldBuy(prevLongAvg, prevShortAvg, longAvg, shortAvg)) {
+                order = getOrder(true, currentPrice, strategy);
+            } else if (shouldSell(prevLongAvg, prevShortAvg, longAvg, shortAvg)) {
+                order = getOrder(false, currentPrice, strategy);
             }
-
             prevLongAvg = longAvg;
             prevShortAvg = shortAvg;
 
-            // send the order to the OrderBroker
             if (order != null) {
-                String xml = xmlMapper.writeValueAsString(order);
-                try {
-                    jmsTemplate.send(queue, (Session s) -> {
-                        Message m = s.createTextMessage(xml);
-                        m.setJMSCorrelationID(responseUuid);
-                        return m;
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                // send the order to the OrderBroker
+                send(xmlMapper.writeValueAsString(order));
 
                 if (hasToClose) {
                     // check if exit condition has been violated
                     pnl += pairPnl;
-                    if (pnl <= (startingValue - check) || pnl >= (startingValue + check) ) {
+                    if (shouldExit(startingValue, exitPercent, pnl)) {
                         break;
                     }
-                    // reset pair pnl
                     pairPnl = 0;
                 }
-
                 hasToClose = !hasToClose;
 
-                // introduce artificial lag to make it not execute trades on the same timestamp
-                Thread.sleep(1000);
             }
+            // introduce artificial lag to make it not execute trades on the same timestamp
+            Thread.sleep(THROTTLE);
         }
 
         strategy.setIsActive(false);
@@ -102,11 +103,32 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
         return null;
     }
 
-    public TwoMovingAveragesStrategy getStrategy() {
-        return strategy;
+    /**
+     * @param prevLongAvg the long average from the previous iteration of the strategy
+     * @param prevShortAvg the short average from the previous iteration of the strategy
+     * @param longAvg the current long average
+     * @param shortAvg the current short average
+     * @return a boolean specifying whether you should buy in the market right now based on the long and short averages
+     */
+    public static boolean shouldBuy(double prevLongAvg, double prevShortAvg, double longAvg, double shortAvg) {
+        if ( (prevShortAvg - prevLongAvg) < 0 && (shortAvg - longAvg) >= 0 ) {
+            return true;
+        }
+        else return false;
     }
 
-    public void setStrategy(TwoMovingAveragesStrategy strategy) {
-        this.strategy = strategy;
+    /**
+     * @param prevLongAvg the long average from the previous iteration of the strategy
+     * @param prevShortAvg the short average from the previous iteration fo the strategy
+     * @param longAvg the current long average
+     * @param shortAvg the current short average
+     * @return a boolean specifying whether you should sell in the market right now based on the long and short averages
+     */
+    public static boolean shouldSell(double prevLongAvg, double prevShortAvg, double longAvg, double shortAvg) {
+        if ( (prevShortAvg - prevLongAvg) >= 0 && (shortAvg - longAvg) < 0 ) {
+            return true;
+        }
+        else return false;
     }
+
 }
