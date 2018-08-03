@@ -39,7 +39,7 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 6. We prepared to ship our project from development to production. 
 
 ## Retrospective
-During this project, there were things that went well/wrong. 
+During this project, there were things that went well/wrong. We figured out what we would change and what we learned from this project.
 ### Some of the things that went well:
 - Thought of overall architecture prior to initial development
 - team communication was strong
@@ -50,6 +50,10 @@ During this project, there were things that went well/wrong.
 - Had difficulties shipping our project from development to production due to technical difficulties
 - Spent too much time on low priority tasks
 - Had difficulties with angular components interacting with one another 
+### What we would change:
+- Everyone should have basic knowledge of docker. 
+- Have a better understanding of how the stratgies run
+- Make the initial directory structure clearer
 ## References
 [Insert wireframes here]
 [Outside material we thought was useful]
