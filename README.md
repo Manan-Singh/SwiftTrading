@@ -56,6 +56,8 @@ During this project, there were things that went well/wrong. We figured out what
 - Everyone should have basic knowledge of docker. 
 - Have a better understanding of how the stratgies run
 - Make the initial directory structure clearer
+### Lessons learned:
+- Never assume facts on the subject material
 ## References
 [Insert wireframes here]
 [Outside material we thought was useful]
