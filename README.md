@@ -58,6 +58,7 @@ During this project, there were things that went well/wrong. We figured out what
 - Make the initial directory structure clearer
 ### Lessons learned:
 - Never assume facts on the subject material
+- Exchanging ideas and information with other teams helped us debug quicker
 ## References
 [Insert wireframes here]
 [Outside material we thought was useful]
