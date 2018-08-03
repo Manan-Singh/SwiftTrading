@@ -47,12 +47,13 @@ export class TradeChartComponent implements OnInit {
           let dates = [];
           let profit = [];
           let i = 0;
+          let profitTmp = 0;
           for(let res in data){
             i+=1;
           }
           if(i>=2){
             dates = [];
-            let profitTmp = 0;
+            profitTmp = 0;
             if(data[0].buyTrade === false) {profitTmp += data[0].price * data[0].tradeSize;}
             else{profitTmp -= data[0].price * data[0].tradeSize;}
             for(var res = 1; res < i; res++){
@@ -75,6 +76,15 @@ export class TradeChartComponent implements OnInit {
             const splitDates = dates[res].split('T');
             dates[res] = splitDates[1];
           }
+
+          let chartColor: string;
+          if(profitTmp >= 0){
+            chartColor = "#3cba68";
+
+          }
+          else{
+            chartColor = "#ba3c46"
+          }
           this.chart = new Chart('canvas', {
             type: 'line',
             data: {
@@ -82,7 +92,7 @@ export class TradeChartComponent implements OnInit {
               datasets: [
                 {
                   data: profit,
-                  borderColor: '#00BFFF',
+                  borderColor: chartColor,
                   fill: false
                 }
               ]
@@ -96,7 +106,12 @@ export class TradeChartComponent implements OnInit {
                   display: true
                 }],
                 yAxes: [{
-                  display: true
+                  display: true,
+                  ticks:{
+                    callback: function(value, index, values){
+                      return '$' + value;
+                    }
+                  }
                 }],
               }
             }
