@@ -35,6 +35,13 @@ To setup the MySQL DB:
 - Next run the init.sql script
 - Optoinally, you can now run the dummy data script if you would like to see mock data
 
+To run the TradingEngine:
+- Make sure the MySQL instance has been configuered properly and is running
+- Simply run the project using maven or the IDE tools
+
+To run the API:
+- Make sure the TradingEngine has been running
+- Simmply run the project using maven or the IDE tools
 
 ### Running the app in production
 [How to run the app]
