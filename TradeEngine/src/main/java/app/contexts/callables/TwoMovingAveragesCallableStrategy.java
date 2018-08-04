@@ -20,8 +20,8 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
     private TwoMovingAveragesStrategy strategy;
 
     public TwoMovingAveragesCallableStrategy(StockPriceRecordService sprs, StrategyService ss,
-                                             JmsTemplate jmsTemplate, Queue queue, TwoMovingAveragesStrategy s) {
-        super(sprs, ss, jmsTemplate, queue);
+                                             JmsTemplate jmsTemplate, TwoMovingAveragesStrategy s) {
+        super(sprs, ss, jmsTemplate);
         this.strategy = s;
     }
 
@@ -34,7 +34,7 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
     @Override
     public Void call() throws Exception {
 
-        // value of first buy/sell
+        // value of the price of the stock when entering the market times the entry size
         double startingValue = 0;
         // the amount of stocks the strategy buys or sells
         int tradeSize = strategy.getEntrySize();
@@ -71,8 +71,10 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
             Order order = null;
             if (shouldBuy(prevLongAvg, prevShortAvg, longAvg, shortAvg)) {
                 order = getOrder(true, currentPrice, strategy);
+                pairPnl -= (currentPrice * tradeSize);
             } else if (shouldSell(prevLongAvg, prevShortAvg, longAvg, shortAvg)) {
                 order = getOrder(false, currentPrice, strategy);
+                pairPnl += (currentPrice * tradeSize);
             }
             prevLongAvg = longAvg;
             prevShortAvg = shortAvg;

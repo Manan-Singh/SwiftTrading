@@ -25,17 +25,15 @@ public abstract class CallableStrategy implements Callable<Void> {
     protected StockPriceRecordService stockPriceService;
     protected StrategyService strategyService;
     protected JmsTemplate jmsTemplate;
-    protected Queue queue;
     protected XmlMapper xmlMapper = new XmlMapper();
     protected String responseUuid = UUID.randomUUID().toString();
     protected static final int THROTTLE = 3000;
     private static final Logger logger = LoggerFactory.getLogger(CallableStrategy.class);
 
-    public CallableStrategy(StockPriceRecordService sprs, StrategyService ss, JmsTemplate jmsTemplate, Queue queue) {
+    public CallableStrategy(StockPriceRecordService sprs, StrategyService ss, JmsTemplate jmsTemplate) {
         this.stockPriceService = sprs;
         this.strategyService = ss;
         this.jmsTemplate = jmsTemplate;
-        this.queue = queue;
     }
 
     /**
@@ -64,7 +62,7 @@ public abstract class CallableStrategy implements Callable<Void> {
      */
     public static boolean shouldExit(double startValue, double exitPercentage, double pnl) {
         double margin = startValue * exitPercentage;
-        if (pnl < startValue - margin || pnl > startValue + margin) {
+        if (Math.abs(pnl) <= margin || Math.abs(pnl) >= margin) {
             return true;
         }
         return false;
@@ -76,7 +74,7 @@ public abstract class CallableStrategy implements Callable<Void> {
      */
     protected void send(String message) {
         try {
-            jmsTemplate.send(queue, (Session session) -> {
+            jmsTemplate.send("OrderBroker", (Session session) -> {
                 Message msg = session.createTextMessage(message);
                 msg.setJMSCorrelationID(responseUuid);
                 return msg;
