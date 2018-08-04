@@ -51,7 +51,7 @@ public class UpdateStockPriceTask {
                 stockService.save(spr);
             }
         }
-        logger.info("Updated active stock prices");
+        //TODO: logger.info("Updated active stock prices");
     }
 
     // this gives a complete url query that will return the bid and ask prices for each active stock

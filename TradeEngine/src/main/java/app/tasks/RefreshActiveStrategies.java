@@ -50,7 +50,7 @@ public class RefreshActiveStrategies {
             activeStrategies.put(x, future);
         });
 
-        logger.info("Refreshed active strategies");
+        //TODO: logger.info("Refreshed active strategies");
     }
 
     private List<Strategy> getStrategiesToBeExecuted(List<Strategy> currentlyActive) {
