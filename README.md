@@ -15,7 +15,8 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 
 ## Architecture
 ### Overall Architecture Diagram 
-![Image of Architecture](images/2018_Analyst_Project)
+![Image of Architecture](images/2018_Analyst_Project.png)
+
 The front end is developed using Angular 5. 
 The back end is developed in Java using Spring Boot and JMS.
 ### Database Diagram 
