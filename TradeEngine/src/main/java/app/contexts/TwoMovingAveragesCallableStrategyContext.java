@@ -84,7 +84,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                 double currentPrice = stockService.getMostRecentStockPrice(strategy.getTicker());
                 if (startingValue == 0) {
                     startingValue = currentPrice * tradeSize;
-                    check = startingValue * exitPercent;
+                    check = startingValue * (exitPercent / 100);
                 }
 
                 Order order = null;
@@ -110,7 +110,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                     System.out.println("Sending an order");
                     String xml = xmlMapper.writeValueAsString(order);
                     try {
-                        jmsTemplate.send(queue, (Session s) -> {
+                        jmsTemplate.send("OrderBroker", (Session s) -> {
                             Message m = s.createTextMessage(xml);
                             m.setJMSCorrelationID(responseUuid);
                             return m;
@@ -122,7 +122,7 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
                     if (hasToClose) {
                         // check if exit condition has been violated
                         pnl += pairPnl;
-                        if (pnl <= (startingValue - check) || pnl >= (startingValue + check) ) {
+                        if (Math.abs(pnl) >= check) {
                             break;
                         }
                         // reset pair pnl
@@ -131,9 +131,9 @@ public class TwoMovingAveragesCallableStrategyContext extends CallableStrategyCo
 
                     hasToClose = !hasToClose;
 
-                    // introduce artificial lag to make it not execute trades on the same timestamp
-                    Thread.sleep(1000);
                 }
+                // introduce artificial lag to make it not execute trades on the same timestamp
+                Thread.sleep(3000);
             }
 
             strategy.setIsActive(false);
