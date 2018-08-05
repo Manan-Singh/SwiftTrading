@@ -1,4 +1,4 @@
-package app.services;
+package app.services.implementations;
 
 import app.entities.TradeDTO;
 import org.junit.Before;
@@ -6,13 +6,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class TradeMessageServiceTest {
+public class DefaultTradeMessageServiceTest {
 
-    private TradeMessageService messageService;
+    private DefaultTradeMessageService messageService;
 
     @Before
     public void setUp() {
-        messageService = new TradeMessageService();
+        messageService = new DefaultTradeMessageService();
     }
 
     @Test
@@ -38,5 +38,6 @@ public class TradeMessageServiceTest {
         assertTrue(tradeDTO.getTimeTransacted().equals("2014-07-31T22:33:22.801"));
         assertTrue(tradeDTO.getState().equals("PARTIALLY_FILLED"));
     }
+
 
 }

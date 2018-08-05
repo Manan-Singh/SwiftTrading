@@ -63,7 +63,7 @@ public class UpdateStockPriceTask {
      * @param stocks the list of stocks that need to be queried from the market
      * @return a string representation of the query that must be appeneded to the market feed HTTP request
      */
-    private String getMarketQuery(List<String> stocks) {
+    public String getMarketQuery(List<String> stocks) {
         String stockString = stocks.stream().collect(Collectors.joining(",")).toLowerCase();
         return marketFeedUrl + stockString + FIELDS;
     }
