@@ -72,7 +72,7 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
 
                 double currentPrice = stockService.getMostRecentStockPrice(strategy.getTicker());
                 if (startValue == 0) {
-                    startValue = currentPrice;
+                    startValue = currentPrice * tradeSize;
                 }
 
                 Order order = null;
@@ -80,13 +80,13 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                 if ( currentPrice <= (movingAvg - (movingStdDev * strategy.getStdDev())) && mustBuy ) {
                     // should buy
                     order = getOrder(true, currentPrice, tradeSize, strategy);
-                    pairPnl -= currentPrice;
+                    pairPnl -= currentPrice * tradeSize;
                     mustBuy = false;
                     mustSell = true;
                 } else if( currentPrice >= (movingAvg + (movingStdDev * strategy.getStdDev())) && mustSell) {
                     // should sell
                     order = getOrder(false, currentPrice, tradeSize, strategy);
-                    pairPnl += currentPrice;
+                    pairPnl += currentPrice * tradeSize;
                     mustSell = false;
                     mustBuy = true;
                 }
@@ -94,7 +94,7 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                 if (order != null) {
                     String xml = xmlMapper.writeValueAsString(order);
                     try {
-                        jmsTemplate.send(queue, (Session s) -> {
+                        jmsTemplate.send("OrderBroker", (Session s) -> {
                             Message m = s.createTextMessage(xml);
                             m.setJMSCorrelationID(responseUuid);
                             return m;
@@ -109,12 +109,13 @@ public class BollingerStrategyContext extends CallableStrategyContext implements
                             break;
                         }
                         pairPnl = 0;
+                        mustBuy = true;
+                        mustSell = true;
                     }
                     hasToClose = !hasToClose;
-
-                    // introduce artificial lag to make it not execute trades on the same timestamp
-                    Thread.sleep(1000);
                 }
+                // introduce artificial lag to make it not execute trades on the same timestamp
+                Thread.sleep(3000);
             }
 
             strategy.setIsActive(false);

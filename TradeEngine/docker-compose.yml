@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+
+  swift-mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD}
+      MYSQL_DATABASE: ${DBNAME}
+      MYSQL_USER: ${USERNAME}
+      MYSQL_PASSWORD: ${PASSWORD}
+    volumes:
+      - ../SQL/sqlscript.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - 3306:3306
+
+  mqbroker:
+    image: docker.conygre.com:5000/mqbroker
+    depends_on:
+      - swift-mysql
+    ports:
+      - 61616:61616
+
+  swift-engine:
+    image: docker.conygre.com:5000/swift-engine
+    depends_on:
+      - swift-mysql
+      - mqbroker
+    ports:
+      - ${PORTAPI}:${PORTAPI}
+    environment:
+      DBHOST: swift-mysql
+      DBNAME: ${DBNAME}
+      USERNAME: ${USERNAME}
+      PASSWORD: ${PASSWORD}
+      ACTIVEMQ: mqbroker
+      PORTAPI: ${PORTAPI}

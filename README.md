@@ -15,7 +15,8 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 
 ## Architecture
 ### Overall Architecture Diagram 
-[Insert overall architecture diagram here]
+![Image of Architecture](images/2018_Analyst_Project.png)
+
 The front end is developed using Angular 5. 
 The back end is developed in Java using Spring Boot and JMS.
 ### Database Diagram 
@@ -25,7 +26,23 @@ The back end is developed in Java using Spring Boot and JMS.
 
 ## General Setup Guide
 ### Running the app in development
-[How to run the app]
+Assuming the IDE that you're using is IntelliJ, you'll need to add an edit the run configurations on you app to include the line: `-Dspring.profiles.active=dev`
+
+This will allow you to run the app in a development mode where you can configure the application.properties to have whatever values you'd like.
+
+To setup the MySQL DB:
+- Run the script to create the user in the SQL folder
+- Next run the init.sql script
+- Optoinally, you can now run the dummy data script if you would like to see mock data
+
+To run the TradingEngine:
+- Make sure the MySQL instance has been configuered properly and is running
+- Simply run the project using maven or the IDE tools
+
+To run the API:
+- Make sure the TradingEngine has been running
+- Simmply run the project using maven or the IDE tools
+
 ### Running the app in production
 [How to run the app]
 

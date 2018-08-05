@@ -50,8 +50,8 @@ public class UpdateStockPriceTask {
                 spr.setTimeInspected(Timestamp.from(Instant.now()));
                 stockService.save(spr);
             }
+            logger.info("Updated active stock prices");
         }
-        logger.info("Updated active stock prices");
     }
 
     // this gives a complete url query that will return the bid and ask prices for each active stock
