@@ -48,13 +48,13 @@ public class BollingerCallableStrategy extends CallableStrategy {
         while (!Thread.currentThread().isInterrupted()) {
             Double movingAvg = stockPriceService.getAverageStockPrice(strategy.getPeriod(), strategy.getTicker());
             Double movingStdDev = stockPriceService.getStdDev(strategy.getPeriod(), strategy.getTicker());
-            if (movingAvg == null || movingStdDev == null) {
+            Double currentPrice = stockPriceService.getMostRecentStockPrice(strategy.getTicker());
+
+            if (currentPrice == null || movingAvg == null || movingStdDev == null) {
                 // in case the feed doesn't have any data on prices yet
                 Thread.sleep(1000);
                 continue;
             }
-
-            double currentPrice = stockPriceService.getMostRecentStockPrice(strategy.getTicker());
             if (startValue == 0) {
                 startValue = currentPrice * tradeSize;
             }
@@ -85,7 +85,6 @@ public class BollingerCallableStrategy extends CallableStrategy {
                     mustSell = true;
                 }
                 hasToClose = !hasToClose;
-
             }
             // introduce artificial lag to make it not execute trades on the same timestamp
             Thread.sleep(THROTTLE);

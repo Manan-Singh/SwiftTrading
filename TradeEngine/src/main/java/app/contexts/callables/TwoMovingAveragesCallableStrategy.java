@@ -4,6 +4,8 @@ import app.entities.Order;
 import app.entities.strategies.TwoMovingAveragesStrategy;
 import app.services.StockPriceRecordService;
 import app.services.StrategyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Message;
@@ -18,6 +20,7 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
 
 
     private TwoMovingAveragesStrategy strategy;
+    private Logger logger = LoggerFactory.getLogger(TwoMovingAveragesCallableStrategy.class);
 
     public TwoMovingAveragesCallableStrategy(StockPriceRecordService sprs, StrategyService ss,
                                              JmsTemplate jmsTemplate, TwoMovingAveragesStrategy s) {
@@ -57,9 +60,9 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
             // find the average price of the records for both the long and short periods, and get the current price
             Double longAvg = stockPriceService.getAverageStockPrice(longTime, strategy.getTicker());
             Double shortAvg = stockPriceService.getAverageStockPrice(shortTime, strategy.getTicker());
-            double currentPrice = stockPriceService.getMostRecentStockPrice(strategy.getTicker());
+            Double currentPrice = stockPriceService.getMostRecentStockPrice(strategy.getTicker());
 
-            if (longAvg == null || shortAvg == null) {
+            if (currentPrice == null || longAvg == null || shortAvg == null) {
                 // in case the feed doesn't have any data on prices yet
                 Thread.sleep(longTime);
                 continue;
@@ -92,7 +95,6 @@ public class TwoMovingAveragesCallableStrategy extends CallableStrategy {
                     pairPnl = 0;
                 }
                 hasToClose = !hasToClose;
-
             }
             // introduce artificial lag to make it not execute trades on the same timestamp
             Thread.sleep(THROTTLE);

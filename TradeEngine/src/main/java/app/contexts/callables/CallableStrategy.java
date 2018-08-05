@@ -61,8 +61,8 @@ public abstract class CallableStrategy implements Callable<Void> {
      * @return a boolean that tells if the strategy should stop running because it has violated the exit condition
      */
     public static boolean shouldExit(double startValue, double exitPercentage, double pnl) {
-        double margin = startValue * exitPercentage;
-        if (Math.abs(pnl) <= margin || Math.abs(pnl) >= margin) {
+        double margin = startValue * (exitPercentage / 100);
+        if (Math.abs(pnl) >= margin) {
             return true;
         }
         return false;

@@ -31,7 +31,7 @@ public class CallableStrategyContextMapperService {
         if (s instanceof TwoMovingAveragesStrategy) {
             return new TwoMovingAveragesCallableStrategy(stockPriceRecordService, strategyService, template,
                     (TwoMovingAveragesStrategy) s);
-        } else if (s instanceof TwoMovingAveragesStrategy) {
+        } else if (s instanceof BollingerBandsStrategy) {
             return  new BollingerCallableStrategy(stockPriceRecordService, strategyService, template,
                     (BollingerBandsStrategy) s);
         }
