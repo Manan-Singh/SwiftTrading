@@ -50,8 +50,8 @@ public abstract class CallableStrategyContext {
 
         // checks if the pnl violates the exit condition
         protected boolean shouldExit(double startValue, double exitPercentage, double pnl) {
-            double margin = startValue * exitPercentage;
-            if (pnl < startValue - margin || pnl > startValue + margin) {
+            double margin = startValue * (exitPercentage / 100);
+            if (Math.abs(pnl) >= margin) {
                 return true;
             }
             return false;
