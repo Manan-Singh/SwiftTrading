@@ -32,6 +32,10 @@ public class RefreshActiveStrategies {
     @Autowired
     private CallableStrategyContextMapperService strategyContextMapperService;
 
+    /**
+     * This method takes care of loading in new active strategies and kicking out strategies that have already
+     * finished executing
+     */
     @Scheduled(fixedRate = 10000)
     public void refresh() {
         List<Strategy> currentlyActive = strategyService.getActiveStrategies();

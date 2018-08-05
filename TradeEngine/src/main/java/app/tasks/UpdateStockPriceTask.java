@@ -32,6 +32,10 @@ public class UpdateStockPriceTask {
     @Autowired
     private StockPriceRecordService stockService;
 
+    /**
+     * Queries the market feed service using HTTP requests and stores the results into the DB. It first gets
+     * all the stocks of the active strategies and only queries for those
+     */
     @Scheduled(fixedRate = 500)
     private void updateStockPrices() {
         List<String> active = stockService.getAllActiveStocks();
@@ -54,7 +58,11 @@ public class UpdateStockPriceTask {
         }
     }
 
-    // this gives a complete url query that will return the bid and ask prices for each active stock
+    /**
+     *  This gives a complete url query that will return the bid and ask prices for each active stock
+     * @param stocks the list of stocks that need to be queried from the market
+     * @return a string representation of the query that must be appeneded to the market feed HTTP request
+     */
     private String getMarketQuery(List<String> stocks) {
         String stockString = stocks.stream().collect(Collectors.joining(",")).toLowerCase();
         return marketFeedUrl + stockString + FIELDS;

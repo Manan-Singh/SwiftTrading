@@ -1,12 +1,10 @@
-package app.contexts.callables;
+package app.callables;
 
 import app.entities.Order;
 import app.entities.strategies.BollingerBandsStrategy;
 import app.services.StockPriceRecordService;
 import app.services.StrategyService;
 import org.springframework.jms.core.JmsTemplate;
-
-import javax.jms.Queue;
 
 /**
  * An implementation of the BollingerBands Market strategy which buys and sell based

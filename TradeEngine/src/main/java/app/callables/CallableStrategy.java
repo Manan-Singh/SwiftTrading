@@ -1,7 +1,6 @@
-package app.contexts.callables;
+package app.callables;
 
 import app.entities.Order;
-import app.entities.StockPriceRecord;
 import app.entities.strategies.Strategy;
 import app.services.StockPriceRecordService;
 import app.services.StrategyService;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.Message;
-import javax.jms.Queue;
 import javax.jms.Session;
 import java.time.LocalDateTime;
 import java.util.UUID;

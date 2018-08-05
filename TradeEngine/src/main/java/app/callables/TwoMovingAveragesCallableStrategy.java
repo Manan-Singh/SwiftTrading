@@ -1,4 +1,4 @@
-package app.contexts.callables;
+package app.callables;
 
 import app.entities.Order;
 import app.entities.strategies.TwoMovingAveragesStrategy;
@@ -7,10 +7,6 @@ import app.services.StrategyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
-
-import javax.jms.Message;
-import javax.jms.Queue;
-import javax.jms.Session;
 
 /**
  * An implementation of the TwoMovingAverages Market strategy which waits for changes in the

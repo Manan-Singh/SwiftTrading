@@ -15,5 +15,4 @@ public class AppConfig {
         return service;
     }
 
-
 }
