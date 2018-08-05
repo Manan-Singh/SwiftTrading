@@ -44,9 +44,7 @@ public class TradeMessageService {
         if (tradeDTO.getState() == null || tradeDTO.getState().isEmpty()) {
             tradeDTO.setState("FILLED");
         }
-        logger.info("Current time on tradeDTO before transform: " + tradeDTO.getTimeTransacted());
         tradeDTO.setTimeTransacted(getProperTimeString(tradeDTO));
-        logger.info("Current time on tradeDTO after transform: " + tradeDTO.getTimeTransacted());
         return tradeDTO;
     }
 
