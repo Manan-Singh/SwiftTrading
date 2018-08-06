@@ -45,7 +45,7 @@ To run the API:
 - Simmply run the project using maven or the IDE tools
 
 ### Running the app in production
-[deployment_documentation/README.md]
+Please refer to the following resource for our deployment information: [Deployment Information](deployment_documentation/README.md).
 
 ## Our steps
 1. Prior to coding, we designed the overall application flow and architecture of our project. We also interviewed the customer to confirm what the customer would want in our UI. 
