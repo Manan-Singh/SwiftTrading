@@ -20,9 +20,10 @@ Jessica is our front end engineer of our team. She created the wireframes and th
 The front end is developed using Angular 5. 
 The back end is developed in Java using Spring Boot and JMS.
 ### Database Diagram 
-[Insert database diagram here]
+![Image of Database Diagram](images/ER_Diagram.png)
+
 ### Deployment workflow diagram
-[insert deployment workflow diagram here]
+![Image of Deployment Diagram](images/Deployment_Workflow.png)
 
 ## General Setup Guide
 ### Running the app in development
